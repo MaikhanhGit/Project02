@@ -11,22 +11,31 @@ public class TouchManager : MonoBehaviour
 
     private InputAction _touchPositionAction;
     private InputAction _touchPressAction;
+    private InputAction _touchHoldAction;
+
+    private bool _hold = false;
 
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
         _touchPressAction = _playerInput.actions.FindAction("TouchPress");
         _touchPositionAction = _playerInput.actions.FindAction("TouchPosition");
+        _touchHoldAction = _playerInput.actions.FindAction("TouchHold");
     }
 
     private void OnEnable()
     {
         _touchPressAction.performed += TouchPressed;
+        _touchHoldAction.performed += TouchHold;        
+       
+        
     }
 
     private void OnDisable()
     {
         _touchPressAction.performed -= TouchPressed;
+        _touchHoldAction.performed -= TouchHold;        
+
     }
 
     private void TouchPressed(InputAction.CallbackContext context)
@@ -41,4 +50,11 @@ public class TouchManager : MonoBehaviour
         Debug.Log(position);
 
     }
+
+    private void TouchHold(InputAction.CallbackContext context)
+    {        
+        _player.transform.localScale *= 2;
+
+    }
+   
 }
