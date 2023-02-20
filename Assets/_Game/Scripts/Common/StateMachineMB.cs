@@ -24,7 +24,7 @@ public class StateMachineMB : MonoBehaviour
         // run our exit sequence before moving to new state
         CurrentState?.Exit();
         if(newState != null) 
-             StoreStateAsPrevious(CurrentState);
+             StoreStateAsPrevious(CurrentState, newState);
 
         CurrentState = newState;
 
@@ -33,15 +33,15 @@ public class StateMachineMB : MonoBehaviour
         _inTransition = false;        
     }
 
-    private void StoreStateAsPrevious(State currentState)
+    private void StoreStateAsPrevious(State currentState, State newState)
     {
         // if there is no previous state, this is our first
         if (_previousState == null && currentState != null)
-            _previousState = currentState;   
+            _previousState = newState;   
         // otherwise, store our current state as previous
         else if(_previousState != null && currentState != null)
         {
-            _previousState = currentState;
+            _previousState = CurrentState;
         }
     }
 

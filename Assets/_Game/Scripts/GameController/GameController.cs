@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    [field: SerializeField]
-    public PlayerOne PlayerOnePrefab { get; private set; }
+    [Header("Game Data")]
+    [SerializeField] private float _tapLimitDuration = 2.5f;
 
-    [field: SerializeField]
-    public Transform PlayerOneSpawnPosition { get; private set; }
+    [Header("Dependencies")]
+    [SerializeField] private PlayerOne _playerOnePrefab;
+    [SerializeField] private Transform _playerOneSpawnPosition;
+    [SerializeField] private PlayerOneUnitSpawner _playerOneUnitSpawner;
+    [SerializeField] private InputBroadcaster _input;
 
-    [field: SerializeField]
-    public PlayerOneUnitSpawner PlayerOneUnitSpawner { get; private set; }
+    public float TapLimitDuration => _tapLimitDuration;
 
-    [field: SerializeField]
-    public InputBroadcaster Input { get; private set; }          
+    public PlayerOne PlayerOnePrefab => _playerOnePrefab;
+    public Transform PlayerOneSpawnPosition => _playerOneSpawnPosition;
+    public PlayerOneUnitSpawner PlayerOneUnitSpawner => _playerOneUnitSpawner;
+    public InputBroadcaster Input => _input;
+
     
 }

@@ -46,6 +46,10 @@ public class GamePlayerOneState : State
         {
             Debug.Log("You Win!");
         }
+        else if(StateDuration >= _controller.TapLimitDuration)
+        {
+            Debug.Log("You Lose!");
+        }
 
         // check for lose condition
     }
