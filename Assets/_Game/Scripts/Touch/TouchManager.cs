@@ -48,11 +48,11 @@ public class TouchManager : MonoBehaviour
         IsPressed = true;        
 
         float value = context.ReadValue<float>();
-         //Debug.Log(value);        
-
+        /*
          Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
          position.z = _player.transform.position.z;
          _player.transform.position = position;
+        */
     
     }
     
