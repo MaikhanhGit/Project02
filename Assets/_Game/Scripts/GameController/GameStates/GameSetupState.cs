@@ -22,10 +22,12 @@ public class GameSetupState : State
         Debug.Log("STATE: Game Setup");
         Debug.Log("Load Save Date");
         Debug.Log("STATE: Spawn Units");
-
+        // spawn Player 1
         _controller.PlayerOneUnitSpawner.Spawn(_controller.PlayerOnePrefab,
             _controller.PlayerOneSpawnPosition);
-
+        // spawn Player 2
+        _controller.PlayerTwoUnitSpawner.Spawn(_controller.PlayerTwoPrefab,
+            _controller.PlayerTwoSpawnPosition);
 
     }
 
