@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class TouchManager : MonoBehaviour
-{
-    [SerializeField] GameObject _player;    
-       
+{   
     private PlayerInput _playerInput;
 
     private InputAction _touchPositionAction;
@@ -40,22 +38,12 @@ public class TouchManager : MonoBehaviour
         _touchHoldAction.performed -= TouchHold;
         IsPressed = false;
         IsHold = false;
-
     }
 
    
     private void TouchPressed(InputAction.CallbackContext context)
     {
         IsPressed = true;        
-
-        float value = context.ReadValue<float>();
-        
-        /*
-         Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
-         position.z = _player.transform.position.z;
-         _player.transform.position = position;
-        */
-    
     }
     
     private void TouchReleased(InputAction.CallbackContext context)
