@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GamePlayerOneState : State
 {
     private GameFSM _stateMachine;
     private GameController _controller;
+    private InputAction _touchPositionInput;
+    private PlayerOne _playerOne;
 
     public GamePlayerOneState(GameFSM stateMachine, GameController controller)
     {
@@ -19,6 +22,9 @@ public class GamePlayerOneState : State
         Debug.Log("STATE: Player One Play State");
         Debug.Log("Listen for Player Inputs");
         Debug.Log("Display Player HUD");
+
+        _touchPositionInput = _controller?.Input?.TouchManager?.TouchPositionAction;
+        _playerOne = _controller?.PlayerOnePrefab;
     }
 
     public override void Exit()
@@ -42,9 +48,10 @@ public class GamePlayerOneState : State
 
         
         // check for win condition
-        if (_controller.Input.IsTapPressed == true)
+        if (_controller?.Input?.IsTapPressed == true)
         {
-            Debug.Log("You Win!");
+            Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());            
+            _playerOne?.MovePlayerOne(position);
         }
         else if(StateDuration >= _controller.TapLimitDuration)
         {

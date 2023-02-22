@@ -15,6 +15,7 @@ public class TouchManager : MonoBehaviour
    
     public bool IsPressed { get; private set; } = false;    
     public bool IsHold { get; private set; } = false;
+    public InputAction TouchPositionAction => _touchPositionAction;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class TouchManager : MonoBehaviour
         IsPressed = true;        
 
         float value = context.ReadValue<float>();
+        
         /*
          Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
          position.z = _player.transform.position.z;
