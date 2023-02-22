@@ -5,7 +5,10 @@ using UnityEngine;
 public class StateMachineMB : MonoBehaviour
 {
     public State CurrentState { get; private set; }
+
     private State _previousState;
+
+    public State PreviousState => _previousState;
 
     private bool _inTransition = false;
 

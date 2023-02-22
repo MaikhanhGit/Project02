@@ -8,7 +8,7 @@ public class GamePlayerOneState : State
     private GameFSM _stateMachine;
     private GameController _controller;
     private InputAction _touchPositionInput;
-    private PlayerOne _playerOne;
+    private PlayerOne _playerOne;   
 
     public GamePlayerOneState(GameFSM stateMachine, GameController controller)
     {
@@ -24,12 +24,14 @@ public class GamePlayerOneState : State
         Debug.Log("Display Player HUD");
 
         _touchPositionInput = _controller?.Input?.TouchManager?.TouchPositionAction;
-        _playerOne = _controller?.PlayerOnePrefab;
+        _playerOne = _controller?.PlayerOnePrefab;        
     }
 
     public override void Exit()
     {
         base.Exit();
+        _stateMachine.ChangeState(_stateMachine.KillCheckState);
+        
     }
 
     public override void FixedTick()
@@ -48,10 +50,17 @@ public class GamePlayerOneState : State
 
         
         // check for win condition
+
+        // check if touch, if yes, move player 1 to touch position
         if (_controller?.Input?.IsTapPressed == true)
         {
-            Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());            
-            _playerOne?.MovePlayerOne(position);
+            // placeholder
+            Exit();
+
+            //Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());
+            //position.z = _playerOne.transform.position.z;
+            //_playerOne.transform.position = position;            
+            //_playerOne?.MovePlayerOne(position);
         }
         else if(StateDuration >= _controller.TapLimitDuration)
         {
