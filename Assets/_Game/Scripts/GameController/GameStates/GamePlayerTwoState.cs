@@ -44,10 +44,23 @@ public class GamePlayerTwoState : State
     public override void Tick()
     {
         base.Tick();
-
-        if (_controller?.Input?.IsTapPressed == true)
+        if (StateDuration <= 1 && _controller?.Input?.IsTapPressed == true)
+        {
+            _controller.PlayerOneStateText.SetActive(false);
+            _stateMachine.ChangeState(_stateMachine.GameWinState);
+        }
+        else if (StateDuration < _controller.TimeLimitToLose && _controller?.Input?.IsTapPressed == true)
         {
             Exit();
+            //Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());
+            //position.z = _playerOne.transform.position.z;
+            //_playerOne.transform.position = position;            
+            //_playerOne?.MovePlayerOne(position);
+        }
+        else if (StateDuration >= _controller.TimeLimitToLose)
+        {
+            _controller.PlayerOneStateText.SetActive(false);
+            _stateMachine.ChangeState(_stateMachine.GameLoseState);
         }
     }
 

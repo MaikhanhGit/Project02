@@ -8,7 +8,7 @@ public class GamePlayerOneState : State
     private GameFSM _stateMachine;
     private GameController _controller;
     private InputAction _touchPositionInput;
-    private PlayerOne _playerOne;
+    private PlayerOne _playerOne;        
         
     public GamePlayerOneState(GameFSM stateMachine, GameController controller)
     {
@@ -52,18 +52,30 @@ public class GamePlayerOneState : State
         Debug.Log("Checking for Tie Condition");
         */
 
-        
+
         // check for win condition
 
         // check if touch, if yes, move player 1 to touch position
-        if (_controller?.Input?.IsTapPressed == true)
-        {            
+        
+        if(StateDuration <= 1 && _controller?.Input?.IsTapPressed == true)
+        {
+            _controller.PlayerOneStateText.SetActive(false);
+            _stateMachine.ChangeState(_stateMachine.GameWinState);
+        }
+        else if (StateDuration < _controller.TimeLimitToLose && _controller?.Input?.IsTapPressed == true)
+        {
             Exit();
             //Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());
             //position.z = _playerOne.transform.position.z;
             //_playerOne.transform.position = position;            
             //_playerOne?.MovePlayerOne(position);
         }
+        else if (StateDuration >= _controller.TimeLimitToLose)
+        {
+            _controller.PlayerOneStateText.SetActive(false);
+            _stateMachine.ChangeState(_stateMachine.GameLoseState);
+        }
+            
         
 
         // check for lose condition

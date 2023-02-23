@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     [Header("Game Data")]
     [SerializeField] private float _tapLimitDuration = 2.5f;
     [SerializeField] private float _setupStateDuration = 5;
+    [SerializeField] private float _timeLimitToWin = 1;
+    [SerializeField] private float _timeLimitToLose = 5;
 
     [Header("Dependencies")]
     [SerializeField] private PlayerOne _playerOnePrefab;
@@ -22,6 +24,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _playerOneStateText;
     [SerializeField] private GameObject _playerTwoStateText;
     [SerializeField] private GameObject _killCheckText;
+    [SerializeField] private GameObject _winStateUI;
+    [SerializeField] private GameObject _loseStateUI;
+    [SerializeField] private MainMenu _mainMenu;
+
+    [Header ("SFX")]
+    [SerializeField] private AudioClip _winSFX;
+    [SerializeField] private AudioClip _loseSFX;
 
     
     public float TapLimitDuration => _tapLimitDuration;
@@ -37,6 +46,13 @@ public class GameController : MonoBehaviour
     public GameObject PlayerOneStateText => _playerOneStateText;
     public GameObject PlayerTwoStateText => _playerTwoStateText;
     public GameObject KillCheckText => _killCheckText;
+    public GameObject WinStateUI => _winStateUI;
+    public GameObject LoseStateUI => _loseStateUI;
+    public MainMenu MainMenu => _mainMenu;
+    public float TimeLimitToWin => _timeLimitToWin;
+    public float TimeLimitToLose => _timeLimitToLose;
+    public AudioClip WinSFX => _winSFX;
+    public AudioClip LoseSFX => _loseSFX;
 
 
     public void StartMyCoroutine(IEnumerator coroutine)
