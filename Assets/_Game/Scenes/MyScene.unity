@@ -2080,7 +2080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tapLimitDuration: 2.5
-  _setupStateDuration: 5
+  _setupStateDuration: 7
   _timeLimitToWin: 1
   _timeLimitToLose: 5
   _playerOnePrefab: {fileID: 4628622116358520503, guid: cfa78d7a7f927e743a15f1bbaac0eb76,
