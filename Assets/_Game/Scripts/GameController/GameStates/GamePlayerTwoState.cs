@@ -10,6 +10,9 @@ public class GamePlayerTwoState : State
     private InputAction _touchPositionInput;
     private PlayerOne _playerOne;
 
+    private IEnumerator _coroutine;
+    private float _exitDelay = 1;
+
     public GamePlayerTwoState(GameFSM stateMachine, GameController controller)
     {
         _stateMachine = stateMachine;
@@ -19,12 +22,18 @@ public class GamePlayerTwoState : State
     public override void Enter()
     {
         base.Enter();
+        // UI
+        _controller.PlayerTwoStateText.SetActive(true);
+        
     }
 
     public override void Exit()
     {
-        _stateMachine.ChangeState(_stateMachine.KillCheckState);
         base.Exit();
+
+        _controller.PlayerTwoStateText.SetActive(false);
+        _stateMachine.ChangeState(_stateMachine.KillCheckState);
+        
     }
 
     public override void FixedTick()
@@ -35,5 +44,11 @@ public class GamePlayerTwoState : State
     public override void Tick()
     {
         base.Tick();
+
+        if (_controller?.Input?.IsTapPressed == true)
+        {
+            Exit();
+        }
     }
+
 }

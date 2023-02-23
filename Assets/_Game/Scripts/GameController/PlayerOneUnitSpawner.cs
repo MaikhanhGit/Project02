@@ -11,7 +11,7 @@ public class PlayerOneUnitSpawner : MonoBehaviour
     public PlayerOne Spawn(PlayerOne playerOnePrefab, Transform location)
     {
         // spawn and hold on to the component type
-        PlayerOne _instantiatedGameObject = Instantiate(playerOnePrefab, location.position, Quaternion.identity);
+        PlayerOne _instantiatedGameObject = Instantiate(playerOnePrefab, location.position, location.transform.rotation);
         // TODO do setup here if needed, spawn effects, etc.
         return _instantiatedGameObject;
     }
