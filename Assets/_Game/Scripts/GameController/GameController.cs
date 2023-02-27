@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private PlayerOneUnitSpawner _playerOneUnitSpawner;
     [SerializeField] private PlayerTwoUnitSpawner _playerTwoUnitSpawner;
     [SerializeField] private InputBroadcaster _input;
+    [SerializeField] private GameBoard _gameBoard;
 
     [Header("UI")]
     [SerializeField] private GameObject _setupStateText;
@@ -42,6 +43,7 @@ public class GameController : MonoBehaviour
     public PlayerOneUnitSpawner PlayerOneUnitSpawner => _playerOneUnitSpawner;
     public PlayerTwoUnitSpawner PlayerTwoUnitSpawner => _playerTwoUnitSpawner;
     public InputBroadcaster Input => _input;
+    public GameBoard GameBoard => _gameBoard;
     public GameObject SetupStateText => _setupStateText;
     public GameObject PlayerOneStateText => _playerOneStateText;
     public GameObject PlayerTwoStateText => _playerTwoStateText;

@@ -22,17 +22,18 @@ public class GameSetupState : State
     public override void Enter()
     {
         base.Enter();
-
-        Debug.Log("STATE: Game Setup");
-        Debug.Log("Load Save Date");
-        Debug.Log("STATE: Spawn Units");
+        // setup GameBoard
+        _controller.GameBoard.GenerateBoard();
+        
         //UI
         _controller.SetupStateText.SetActive(true);
 
+        /*
+          PlaceHolders
         // spawn players
         _coroutine = SpawnPlayers(_playerOneSpawnWaitTime, _playerTwoSpawnWaitTime);
         _controller.StartMyCoroutine(_coroutine);
-
+        */
     }
 
     public override void Exit()
@@ -55,6 +56,8 @@ public class GameSetupState : State
             _stateMachine.ChangeState(_stateMachine.PlayerOnePlayState);
     }
 
+    /*
+     PlaceHolder
     private IEnumerator SpawnPlayers(float playerOneWaitTime, float playerTwoWaitTime)
     {
         yield return new WaitForSeconds(playerOneWaitTime);
@@ -66,6 +69,7 @@ public class GameSetupState : State
         _controller.PlayerTwoUnitSpawner.Spawn(_controller.PlayerTwoPrefab,
             _controller.PlayerTwoSpawnPosition);
     }
+    */
 
     
     
