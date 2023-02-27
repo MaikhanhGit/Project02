@@ -59,10 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb6c1f0f1de02c2448f07284e43abb9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 0
-  _team: 0
-  _currentX: 0
-  _currentY: 0
+  Type: 0
+  Team: 0
+  CurrentX: 0
+  CurrentY: 0
 --- !u!1 &5199326198001832926
 GameObject:
   m_ObjectHideFlags: 0

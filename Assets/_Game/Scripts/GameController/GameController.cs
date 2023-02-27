@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     [Header("Game Data")]
     [SerializeField] private float _tapLimitDuration = 2.5f;
-    [SerializeField] private float _setupStateDuration = 7;
+    [SerializeField] private float _setupStateDuration = 5;
     [SerializeField] private float _timeLimitToWin = 1;
     [SerializeField] private float _timeLimitToLose = 5;
 

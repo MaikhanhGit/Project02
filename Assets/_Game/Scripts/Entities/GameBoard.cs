@@ -108,8 +108,8 @@ public class GameBoard : MonoBehaviour
     private GamePiece SpawnSinglePiece(GamePieceType type, int team)
     {
         GamePiece piece = Instantiate(_prefabs[(int)team], transform).GetComponent<GamePiece>();
-        piece._type = type;
-        piece._team = team;
+        piece.Type = type;
+        piece.Team = team;
 
         return piece;
     }
@@ -130,8 +130,8 @@ public class GameBoard : MonoBehaviour
 
     private void PositionSinglePiece(int x, int y, bool force = false)
     {        
-        _gamePieces[x, y]._currentX = x;
-        _gamePieces[x, y]._currentY = y;
+        _gamePieces[x, y].CurrentX = x;
+        _gamePieces[x, y].CurrentX = y;
         _gamePieces[x, y].SetPosition(GetTileCenter(x, y), force);        
     }
 

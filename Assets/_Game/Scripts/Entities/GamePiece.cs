@@ -10,12 +10,14 @@ public enum GamePieceType
 }
 public class GamePiece : MonoBehaviour
 {
-    public GamePieceType _type;
-    public int _team;
-    public int _currentX;
-    public int _currentY;
+    public GamePieceType Type
+        ;
+    public int Team;
+    public int CurrentX;
+    public int CurrentY;
+    
 
-    private Vector3 _desiredPosition;
+    private Vector3 _desiredPosition;   
 
     public void SetPosition(Vector3 position, bool force = false)
     {
