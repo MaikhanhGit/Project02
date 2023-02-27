@@ -78,7 +78,7 @@ public class GameBoard : MonoBehaviour
         mesh.triangles = tris;
         mesh.RecalculateNormals();
 
-        tileObject.layer = LayerMask.NameToLayer(_tileTag);
+        //tileObject.layer = LayerMask.NameToLayer(_tileTag);
         tileObject.AddComponent<BoxCollider>();
 
         return tileObject;
