@@ -40,49 +40,45 @@ public class TouchManager : MonoBehaviour
    
     private void OnEnable()
     {
-        _touchPressAction.started += TouchPressed;
-        //_touchPressAction.canceled += TouchReleased;
+        _touchPressAction.started += TouchPressed;        
+        _touchPressAction.canceled += TouchReleased;
         //_touchPressAction.performed += TouchReleased;
         //_touchHoldAction.performed += TouchHold;               
     }
 
     private void OnDisable()
     {
-        _touchPressAction.started -= TouchPressed;
-        //_touchPressAction.canceled -= TouchPressed;
+        _touchPressAction.started -= TouchPressed;        
+        _touchPressAction.canceled -= TouchPressed;
         //_touchPressAction.performed -= TouchReleased;
         //_touchHoldAction.performed -= TouchHold;
         IsPressed = false;
-        IsHold = false;
+        
     }
 
    
     private void TouchPressed(InputAction.CallbackContext context)
     {
         if(context.started)
-        {
-            Debug.Log("touched");
+        {            
             IsPressed = true;
+            Debug.Log(IsPressed);
+            Vector3 position = _cameraMain.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
+            // Ray ray = Camera.main.ScreenPointToRay(position);
+            Ray ray = new Ray(position, _cameraMain.transform.forward);
+            RaycastHit hit;
+            Debug.DrawRay(position, _cameraMain.transform.forward * 100, Color.green, 1f);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                _hitObjectCollider = hit.collider;
+            }
         }
 
-        else
+        if (context.canceled)
         {
-            Debug.Log("touch released");
             IsPressed = false;
         }
-        
-                
-        Vector3 position = _cameraMain.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
-        // Ray ray = Camera.main.ScreenPointToRay(position);
-        Ray ray = new Ray(position, _cameraMain.transform.forward);       
-        RaycastHit hit;
-        Debug.DrawRay(position, _cameraMain.transform.forward*100, Color.green, 1f);                
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            _hitObjectCollider = hit.collider;
-        }
-        
         /*
         if (Physics.Raycast(ray, out hit))
         {
@@ -91,7 +87,7 @@ public class TouchManager : MonoBehaviour
         }"Touch
         */
 
-            
+
 
         /* PLACE HOLDER: move game object on touch
         Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());

@@ -20,6 +20,11 @@ public class GamePiece : MonoBehaviour
 
     public bool PiecePickedUp => _piecePickedUp;
 
+    private void Update()
+    {
+        
+    }
+
     public void SetPosition(Vector3 position, bool force = false)
     {
         // TODO: player sfx
@@ -37,14 +42,10 @@ public class GamePiece : MonoBehaviour
         {
             Transform transform = this.gameObject.transform;
             transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-            transform.localScale += new Vector3(0.02f, 0.02f, 0.02f);
+            transform.localScale += new Vector3(0.1f, 0.01f, 0.01f);
             _piecePickedUp = true;           
-        }            
-        else if(_piecePickedUp == true)
-        {
-            PutDown();
         }
-      
+        
     }
 
     public void PutDown()

@@ -55,17 +55,29 @@ public class GamePlayerOneState : State
 
         // check input
 
-        if (_controller?.Input?.IsTapPressed == true && _gamePiecePickedUp == false)
-        {
+        if (_controller?.Input?.IsTapPressed == true )
+        {           
             if (_controller.Input.TouchManager.HitObjectCollider?.tag == _playerOneTag)
             {
                 _gamePiece =
-                        _controller.Input.TouchManager.HitObjectCollider.GetComponent<GamePiece>();                
-                _gamePiece.PickedUp();
-                _gamePiecePickedUp = true;                
-            }
+                        _controller.Input.TouchManager.HitObjectCollider.GetComponent<GamePiece>();
 
-            
+                bool _currentlyPickedUp = _gamePiece.PiecePickedUp;
+                Debug.Log(_currentlyPickedUp);
+                if (_currentlyPickedUp == false)
+                {
+                    _gamePiece.PickedUp();
+                    _gamePiecePickedUp = true;
+                }
+                
+                else if(_currentlyPickedUp == true)
+                {
+                    _gamePiece.PutDown();
+                    _gamePiecePickedUp = false;
+                }                
+                              
+            }
+                        
 
 
             /*
