@@ -10,14 +10,15 @@ public enum GamePieceType
 }
 public class GamePiece : MonoBehaviour
 {
-    public GamePieceType Type
-        ;
+    public GamePieceType Type;
     public int Team;
     public int CurrentX;
     public int CurrentY;
     
+    private Vector3 _desiredPosition;
+    private bool _piecePickedUp = false;
 
-    private Vector3 _desiredPosition;   
+    public bool PiecePickedUp => _piecePickedUp;
 
     public void SetPosition(Vector3 position, bool force = false)
     {
@@ -28,5 +29,31 @@ public class GamePiece : MonoBehaviour
         {
             transform.position = _desiredPosition;
         }
+    }
+
+    public void PickedUp()
+    {        
+        if(_piecePickedUp == false)
+        {
+            Transform transform = this.gameObject.transform;
+            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+            transform.localScale += new Vector3(0.02f, 0.02f, 0.02f);
+            _piecePickedUp = true;           
+        }            
+        else if(_piecePickedUp == true)
+        {
+            PutDown();
+        }
+      
+    }
+
+    public void PutDown()
+    {        
+            Debug.Log("Decrease size");
+            Transform transform = this.gameObject.transform;
+            transform.position = new Vector3(transform.position.x, -1, transform.position.z);
+            transform.localScale -= new Vector3(0.02f, 0.02f, 0.02f);
+            _piecePickedUp = false;      
+        
     }
 }

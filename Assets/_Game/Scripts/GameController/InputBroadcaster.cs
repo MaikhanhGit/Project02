@@ -23,11 +23,14 @@ public class InputBroadcaster : MonoBehaviour
         if (TouchManager?.IsPressed == true)
         {
             IsTapPressed = true;            
-        }                
+        }  
+        
         else if (TouchManager?.IsPressed == false)
         {            
             IsTapPressed = false;            
         }
+        
+        /*
         else if(TouchManager?.IsHold == true)
         {
             IsHoldPressed = true;
@@ -36,7 +39,8 @@ public class InputBroadcaster : MonoBehaviour
         else if(TouchManager?.IsHold == false)
         {
             IsHoldPressed = false;           
-        }         
+        } 
+        */
 
     }
 
