@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class GamePlayerOneState : State
 {
@@ -25,9 +26,8 @@ public class GamePlayerOneState : State
         base.Enter();        
         // UI
         //_controller.PlayerOneStateText.SetActive(true);
-
-        _touchPositionInput = _controller?.Input?.TouchManager?.TouchPositionAction;
-        _playerOne = _controller?.PlayerOnePrefab;             
+              
+                 
     }
 
     public override void Exit()
@@ -47,6 +47,8 @@ public class GamePlayerOneState : State
     public override void Tick()
     {
         base.Tick();
+        
+ 
         /*
         Debug.Log("Checking for Win Condition");
         Debug.Log("Checking for Lose Condition");
@@ -55,6 +57,7 @@ public class GamePlayerOneState : State
 
         // check input
 
+        /*
         if (_controller?.Input?.IsTapPressed == true )
         {           
             if (_controller.Input.TouchManager.HitObjectCollider?.tag == _playerOneTag)
@@ -77,6 +80,8 @@ public class GamePlayerOneState : State
                 }                
                               
             }
+        }
+        */
                         
 
 
@@ -124,13 +129,8 @@ public class GamePlayerOneState : State
               */
 
         }
-        else if(_controller?.Input?.IsTapPressed == false)
-        {
-            _gamePiecePickedUp = false;
-        }
 
-
-
+   
         // check Kills
 
         // check Win/Lose/Tie
@@ -159,7 +159,7 @@ public class GamePlayerOneState : State
         }
         */
 
-    }
+    
     
         
 }

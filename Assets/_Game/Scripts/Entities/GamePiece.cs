@@ -20,7 +20,7 @@ public class GamePiece : MonoBehaviour
 
     public bool PiecePickedUp => _piecePickedUp;
 
-    private void Update()
+    private void Awake()
     {
         
     }
@@ -40,10 +40,14 @@ public class GamePiece : MonoBehaviour
     {        
         if(_piecePickedUp == false)
         {
-            Transform transform = this.gameObject.transform;
+            Transform transform = gameObject.transform;
             transform.position = new Vector3(transform.position.x, 1, transform.position.z);
             transform.localScale += new Vector3(0.1f, 0.01f, 0.01f);
             _piecePickedUp = true;           
+        }
+        else if(_piecePickedUp == true)
+        {
+            PutDown();
         }
         
     }

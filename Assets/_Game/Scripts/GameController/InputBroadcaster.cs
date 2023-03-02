@@ -12,7 +12,21 @@ public class InputBroadcaster : MonoBehaviour
 
     // TODO add other input events here
 
-   
+    private void OnEnable()
+    {
+        TouchManager.TouchPressed += OnTouch;
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
+    private void OnTouch(Collider objectCollider)
+    {
+
+    }
+
     private void Update()
     {
         // NOTE: put your Input/Detection here. this code
@@ -22,12 +36,12 @@ public class InputBroadcaster : MonoBehaviour
         
         if (TouchManager?.IsPressed == true)
         {
-            IsTapPressed = true;            
+            //IsTapPressed = true;            
         }  
         
         else if (TouchManager?.IsPressed == false)
         {            
-            IsTapPressed = false;            
+            //IsTapPressed = false;            
         }
         
         /*

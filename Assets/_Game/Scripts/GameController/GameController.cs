@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -17,7 +16,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform _playerTwoSpawnPosition;
     [SerializeField] private PlayerOneUnitSpawner _playerOneUnitSpawner;
     [SerializeField] private PlayerTwoUnitSpawner _playerTwoUnitSpawner;
-    [SerializeField] private InputBroadcaster _input;
+    [SerializeField] private TouchManager _inputManager;
     [SerializeField] private GameBoard _gameBoard;
 
     [Header("UI")]
@@ -42,7 +41,7 @@ public class GameController : MonoBehaviour
     public Transform PlayerTwoSpawnPosition => _playerTwoSpawnPosition;
     public PlayerOneUnitSpawner PlayerOneUnitSpawner => _playerOneUnitSpawner;
     public PlayerTwoUnitSpawner PlayerTwoUnitSpawner => _playerTwoUnitSpawner;
-    public InputBroadcaster Input => _input;
+    public TouchManager InputManager => _inputManager;
     public GameBoard GameBoard => _gameBoard;
     public GameObject SetupStateText => _setupStateText;
     public GameObject PlayerOneStateText => _playerOneStateText;

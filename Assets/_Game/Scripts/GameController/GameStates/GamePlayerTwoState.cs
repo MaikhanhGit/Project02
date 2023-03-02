@@ -44,12 +44,12 @@ public class GamePlayerTwoState : State
     public override void Tick()
     {
         base.Tick();
-        if (StateDuration <= 1 && _controller?.Input?.IsTapPressed == true)
+        if (StateDuration <= 1 && _controller?.InputManager?.IsPressed == true)
         {
             _controller.PlayerOneStateText.SetActive(false);
             _stateMachine.ChangeState(_stateMachine.GameWinState);
         }
-        else if (StateDuration < _controller.TimeLimitToLose && _controller?.Input?.IsTapPressed == true)
+        else if (StateDuration < _controller.TimeLimitToLose && _controller?.InputManager?.IsPressed == true)
         {
             Exit();
             //Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());
