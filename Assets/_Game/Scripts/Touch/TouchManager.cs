@@ -29,69 +29,46 @@ public class TouchManager : MonoBehaviour
     public Collider HitObjectCollider => _hitObjectCollider;
     public InputAction TouchPositionAction => _touchPositionAction;
 
-    public event Action<Collider> TouchPressed = delegate {}; 
+    public event Action<Collider> TouchPressed = delegate { };
+    public event Action TouchReleased = delegate { };
 
     private void Awake()
     {        
         _cameraMain = Camera.main;
         _playerInput = GetComponent<PlayerInput>();        
-        _touchPressAction = _playerInput?.actions.FindAction(_touchPress);
-        _touchPositionAction = _playerInput?.actions.FindAction(_touchPosition);      
-        
+        _touchPressAction = _playerInput.actions.FindAction(_touchPress);
+        _touchPositionAction = _playerInput?.actions.FindAction(_touchPosition);
+                
     }
 
-   
     private void OnEnable()
     {
-        _touchPressAction.performed += OnPressed;                             
+        //_touchPositionAction.performed += OnPressed;
+        _touchPressAction.performed += OnPressed;                
     }
 
     private void OnDisable()
     {
-        _touchPressAction.performed -= OnPressed;       
-        
+        //_touchPositionAction.performed -= OnPressed;
+        _touchPressAction.performed -= OnPressed;
     }
 
-   
     private void OnPressed(InputAction.CallbackContext context)
     {        
-            if (context.performed)
-            {
-            // IsPressed = true;            
-
-                Vector3 position = _cameraMain.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
-                // Ray ray = Camera.main.ScreenPointToRay(position);
-                Ray ray = new Ray(position, _cameraMain.transform.forward);
-                RaycastHit hit;
-                Debug.DrawRay(position, _cameraMain.transform.forward * 100, Color.green, 1f);
+        if (context.performed)
+        {            
+            Vector3 position = _cameraMain.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
+            //Ray ray = Camera.main.ScreenPointToRay(position);
+            Ray ray = new Ray(position, _cameraMain.transform.forward);
+            RaycastHit hit;
+            Debug.DrawRay(position, _cameraMain.transform.forward * 100, Color.green, 1f);
 
             if (Physics.Raycast(ray, out hit))
             {
-                _gamePiece = hit.collider?.GetComponent<GamePiece>();
-
-                if (_gamePiece != null)
-                {
-                    if (hit.transform == _gamePiece.transform && _isPicked == false)
-                    {
-                        transform.localScale *= 2;
-                        _isPicked = true;
-
-                    }
-
-
-                    else if (hit.transform == _gamePiece.transform && _isPicked == true)
-                    {
-                        transform.localScale /= 2;
-                        _isPicked = false;
-                    }
-                    TouchPressed.Invoke(hit.collider);
-                }
-
+                TouchPressed.Invoke(hit.collider);               
+            }
                 
-                }
-
-                
-            } 
+        } 
     }
        
         

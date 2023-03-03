@@ -6,36 +6,38 @@ public class GameBoard : MonoBehaviour
 {
     [Header("Data")]
     [SerializeField] private Material _tileMaterial;
+    [SerializeField] private Material _hightlightMaterial;
     [SerializeField] private float _tileSize = 1;
     [SerializeField] private float _yOffset = 0.2f;
     [SerializeField] private Vector3 _boardCenter = Vector3.zero;
-    // [SerializeField] private GamePiece _gamePiece;
+    [SerializeField] GameController _controller;
+    GamePiece[,] _gamePieces;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject[] _prefabs;
-    [SerializeField] private GameObject[,] _tiles;
     [SerializeField] private Vector3 _bounds;
-
-
-    private GamePiece[,] _gamePieces;
-    private const float TILE_COUNT_X = 5;
-    private const float TILE_COUNT_Y = 5;
+        
+    GetAvailableMoves _getAvailableMoves;
+    private const float _tileCount_X = 5;
+    private const float _tileCount_Y = 5;
     private int _playerOneTeam = 0;
     private int _playerTwoTeam = 1;
     private string _tileTag = "Tile";
+    private string _highlightedTileTage = "HighLight";
     private GamePieceType _gamePieceTeam;
     private bool _playerOnesTurn = false;
     private bool _playerTwosTurn = false;
-
+    private List<Vector2Int> _availableMoves = new List<Vector2Int>();
+    private GameObject[,] _tiles;
 
     private void Awake()
     {
-        
+        _getAvailableMoves = GetComponent<GetAvailableMoves>();
     }
 
     public void GenerateBoard()
     {
-        GenerateTiles(_tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+        GenerateTiles(_tileSize, _tileCount_X, _tileCount_Y);
         SpawnGamePieces();
         PositionGamePieces();
         
@@ -86,12 +88,12 @@ public class GameBoard : MonoBehaviour
 
     private void SpawnGamePieces()
     {
-        _gamePieces = new GamePiece[(int)TILE_COUNT_X, (int)TILE_COUNT_Y];
+        _gamePieces = new GamePiece[(int)_tileCount_X, (int)_tileCount_Y];
 
         // player 1 pieces
         _gamePieces[0, 1] = SpawnSinglePiece(GamePieceType.PlayerOnePiece, _playerOneTeam);
         _gamePieces[4, 1] = SpawnSinglePiece(GamePieceType.PlayerOnePiece, _playerOneTeam);
-        for (int i = 0; i < TILE_COUNT_X; i++)
+        for (int i = 0; i < _tileCount_X; i++)
         {
             _gamePieces[i, 0] = SpawnSinglePiece(GamePieceType.PlayerOnePiece, _playerOneTeam);
         }
@@ -99,7 +101,7 @@ public class GameBoard : MonoBehaviour
         // player 2 pieces
         _gamePieces[0, 3] = SpawnSinglePiece(GamePieceType.PlayerTwoPiece, _playerTwoTeam);
         _gamePieces[4, 3] = SpawnSinglePiece(GamePieceType.PlayerTwoPiece, _playerTwoTeam);
-        for (int i = 0; i < TILE_COUNT_X; i++)
+        for (int i = 0; i < _tileCount_X; i++)
         {
             _gamePieces[i, 4] = SpawnSinglePiece(GamePieceType.PlayerTwoPiece, _playerTwoTeam);
         }
@@ -116,9 +118,9 @@ public class GameBoard : MonoBehaviour
 
     private void PositionGamePieces()
     {
-        for (int x = 0; x < TILE_COUNT_X; x++)
+        for (int x = 0; x < _tileCount_X; x++)
         {
-            for (int y = 0; y < TILE_COUNT_Y; y++)
+            for (int y = 0; y < _tileCount_Y; y++)
             {
                 if (_gamePieces[x, y] != null)
                 {
@@ -139,6 +141,43 @@ public class GameBoard : MonoBehaviour
     {
         return new Vector3 (x * _tileSize, _yOffset, y * _tileSize) - _bounds
                             + new Vector3(_tileSize / 2, 0, _tileSize / 2);
+    }
+    
+    
+    public List<Vector2Int> GetMoves(GamePiece gamePiece)
+    {
+        int pieceCurrentX = gamePiece.CurrentX;
+        int pieceCurrentY = gamePiece.CurrentY;
+
+        _availableMoves = _getAvailableMoves?.AvailableMoves(gamePiece, pieceCurrentX, pieceCurrentY);
+
+        if (_availableMoves.Count > 0)
+        {
+            HighlightTiles();
+            return _availableMoves;
+        }
+        else
+            return null;
+
+    }
+
+    private void HighlightTiles()
+    {
+        for (int i = 0; i < _availableMoves.Count; i++)
+        {
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].layer = LayerMask.NameToLayer(_highlightedTileTage);
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _hightlightMaterial;
+        }
+    }
+
+    private void RemoveHighLightTiles()
+    {
+        for (int i = 0; i < _availableMoves.Count; i++)
+        {
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _tileMaterial;
+        }
+        
     }
 
 }

@@ -6,24 +6,23 @@ public class GameKillCheckState : State
 {
     private GameFSM _stateMachine;
     private GameController _controller;
-    private State _previousState;
+    private State _previousPlayerState;
 
     private float _delayExitDuration = 3;
        
-    public GameKillCheckState(GameFSM stateMachine, GameController controller)
+    public GameKillCheckState(GameFSM stateMachine, GameController controller, State previousPlayerState)
     {
         _stateMachine = stateMachine;
         _controller = controller;
+        _previousPlayerState = previousPlayerState;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        _controller.KillCheckText.SetActive(true);
-
-        // get what the previous state was
-        _previousState = _stateMachine.PreviousState;
+        //_controller.KillCheckText.SetActive(true);
+                
         // check for Kills
                 
     }
@@ -32,11 +31,11 @@ public class GameKillCheckState : State
     {
         _controller.KillCheckText.SetActive(false);
 
-        if (_previousState == _stateMachine.PlayerOnePlayState)
+        if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerTwoPlayState);
         }
-        else if(_previousState == _stateMachine.PlayerTwoPlayState)
+        else if(_previousPlayerState == _stateMachine.PlayerTwoPlayState)
         {
             _stateMachine.ChangeState(_stateMachine.PlayerOnePlayState);
         }

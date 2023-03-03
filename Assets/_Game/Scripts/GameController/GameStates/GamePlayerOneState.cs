@@ -7,14 +7,15 @@ using System;
 public class GamePlayerOneState : State
 {
     private GameFSM _stateMachine;
-    private GameController _controller;
-    private InputAction _touchPositionInput;
-    private PlayerOne _playerOne;
-    private GamePiece _gamePiece;
+    private GameController _controller;        
+    private GamePiece _curGamePiece;
+    private GameBoard _gameBoard;
+    private List<Vector2Int> _availableMoves;
 
     private string _playerOneTag = "PlayerOne";
     private bool _gamePiecePickedUp = false;
-        
+    private bool _gamePieceReleased = false;
+   
     public GamePlayerOneState(GameFSM stateMachine, GameController controller)
     {
         _stateMachine = stateMachine;
@@ -23,9 +24,13 @@ public class GamePlayerOneState : State
 
     public override void Enter()
     {
-        base.Enter();        
+        base.Enter();
         // UI
         //_controller.PlayerOneStateText.SetActive(true);
+        _gameBoard = _controller.GameBoard;
+        _controller.SetCurrentPlayerState(_stateMachine.CurrentState);
+        _controller.InputManager.TouchPressed += OnPick;
+        _controller.InputManager.TouchReleased += OnRelease;
               
                  
     }
@@ -33,7 +38,8 @@ public class GamePlayerOneState : State
     public override void Exit()
     {
         base.Exit();
-
+        _controller.InputManager.TouchPressed -= OnPick;
+        _controller.InputManager.TouchReleased -= OnRelease;      
         //_controller.PlayerOneStateText.SetActive(false);
         _stateMachine.ChangeState(_stateMachine.KillCheckState);
         
@@ -129,7 +135,32 @@ public class GamePlayerOneState : State
               */
 
         }
+    private void OnPick(Collider collider)
+    {              
+        if(collider.tag == _playerOneTag && _gamePiecePickedUp == false)
+        {            
+            _gamePiecePickedUp = true;
 
+            GameObject gamePiece = collider.gameObject;
+            _curGamePiece = gamePiece.GetComponent<GamePiece>();
+            _controller.SetCurrentGamePiece(_curGamePiece);
+            _curGamePiece.PickedUp();
+
+            _availableMoves = _gameBoard.GetMoves(_curGamePiece);
+            Debug.Log(_availableMoves);
+            if (_availableMoves != null)
+            {                
+                _gamePiecePickedUp = false;
+                _stateMachine.ChangeState(_stateMachine.GameMoveState);
+            }                      
+            
+        }
+    }
+
+    private void OnRelease()
+    {
+
+    }
    
         // check Kills
 

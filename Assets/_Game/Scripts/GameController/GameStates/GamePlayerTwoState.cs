@@ -7,11 +7,13 @@ public class GamePlayerTwoState : State
 {
     private GameFSM _stateMachine;
     private GameController _controller;
-    private InputAction _touchPositionInput;
-    private PlayerOne _playerOne;
+    private GamePiece _curGamePiece;
+    private GameBoard _gameBoard;
+    private List<Vector2Int> _availableMoves;
 
-    private IEnumerator _coroutine;
-    private float _exitDelay = 1;
+    private string _playerTwoTag = "PlayerTwo";
+    private bool _gamePiecePickedUp = false;
+    private bool _gamePieceReleased = false;
 
     public GamePlayerTwoState(GameFSM stateMachine, GameController controller)
     {
@@ -23,17 +25,21 @@ public class GamePlayerTwoState : State
     {
         base.Enter();
         // UI
-        _controller.PlayerTwoStateText.SetActive(true);
-        
+        //_controller.PlayerTwoStateText.SetActive(true);
+        _gameBoard = _controller.GameBoard;
+        _controller.SetCurrentPlayerState(_stateMachine.CurrentState);
+        _controller.InputManager.TouchPressed += OnPick;
+        _controller.InputManager.TouchReleased += OnRelease;
+
     }
 
     public override void Exit()
     {
         base.Exit();
-
-        _controller.PlayerTwoStateText.SetActive(false);
-        _stateMachine.ChangeState(_stateMachine.KillCheckState);
-        
+        _controller.InputManager.TouchPressed -= OnPick;
+        _controller.InputManager.TouchReleased -= OnRelease;
+        //_controller.PlayerTwoStateText.SetActive(false);
+        _stateMachine.ChangeState(_stateMachine.KillCheckState);        
     }
 
     public override void FixedTick()
@@ -44,24 +50,29 @@ public class GamePlayerTwoState : State
     public override void Tick()
     {
         base.Tick();
-        if (StateDuration <= 1 && _controller?.InputManager?.IsPressed == true)
+    }
+        
+    private void OnPick(Collider collider)
+    {
+        if (collider.tag == _playerTwoTag)
         {
-            _controller.PlayerOneStateText.SetActive(false);
-            _stateMachine.ChangeState(_stateMachine.GameWinState);
+            _gamePiecePickedUp = true;
+            GameObject gamePiece = collider.gameObject;
+            _curGamePiece = gamePiece.GetComponent<GamePiece>();
+            _controller.SetCurrentGamePiece(_curGamePiece);
+            _curGamePiece.PickedUp();
+
+            _availableMoves = _gameBoard.GetMoves(_curGamePiece);
+            if (_availableMoves != null)
+            {
+                _stateMachine.ChangeState(_stateMachine.GameMoveState);
+            }
         }
-        else if (StateDuration < _controller.TimeLimitToLose && _controller?.InputManager?.IsPressed == true)
-        {
-            Exit();
-            //Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());
-            //position.z = _playerOne.transform.position.z;
-            //_playerOne.transform.position = position;            
-            //_playerOne?.MovePlayerOne(position);
-        }
-        else if (StateDuration >= _controller.TimeLimitToLose)
-        {
-            _controller.PlayerOneStateText.SetActive(false);
-            _stateMachine.ChangeState(_stateMachine.GameLoseState);
-        }
+    }
+
+    private void OnRelease()
+    {
+        
     }
 
 }
