@@ -7,10 +7,11 @@ using System;
 public class GamePlayerOneState : State
 {
     private GameFSM _stateMachine;
-    private GameController _controller;        
-    private GamePiece _curGamePiece;
+    private GameController _controller;            
     private GameBoard _gameBoard;
     private List<Vector2Int> _availableMoves;
+    private GamePiece[,] _gamePieces;
+    private GamePiece _curGamePiece;
 
     private string _playerOneTag = "PlayerOne";
     private bool _gamePiecePickedUp = false;
@@ -27,6 +28,7 @@ public class GamePlayerOneState : State
         base.Enter();
         // UI
         //_controller.PlayerOneStateText.SetActive(true);
+        _availableMoves = null;
         _gameBoard = _controller.GameBoard;
         _controller.SetCurrentPlayerState(_stateMachine.CurrentState);
         _controller.InputManager.TouchPressed += OnPick;
@@ -137,22 +139,23 @@ public class GamePlayerOneState : State
         }
     private void OnPick(Collider collider)
     {              
-        if(collider.tag == _playerOneTag && _gamePiecePickedUp == false)
-        {            
+        if(collider.tag == _playerOneTag)
+        {           
             _gamePiecePickedUp = true;
-
-            GameObject gamePiece = collider.gameObject;
-            _curGamePiece = gamePiece.GetComponent<GamePiece>();
+            
+            _curGamePiece = collider.gameObject.GetComponent<GamePiece>();
             _controller.SetCurrentGamePiece(_curGamePiece);
+            
             _curGamePiece.PickedUp();
 
-            _availableMoves = _gameBoard.GetMoves(_curGamePiece);
-            Debug.Log(_availableMoves);
+            _availableMoves = _gameBoard.GetMoves(collider);
+
             if (_availableMoves != null)
             {                
-                _gamePiecePickedUp = false;
+                _gamePiecePickedUp = false;                
+                // send available moves to GameController to clear later
                 _stateMachine.ChangeState(_stateMachine.GameMoveState);
-            }                      
+            }                 
             
         }
     }

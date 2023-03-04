@@ -48,6 +48,9 @@ public class GameMoveState : State
             GameObject tile = collider.gameObject;                        
             Transform newPosition = tile.transform;
 
+            Debug.Log("tile: " + tile);
+            Debug.Log("newPosition: " + newPosition.position);
+
             piece.SetPosition(newPosition.position, true);
             piece.ResetSize();
 

@@ -11,17 +11,17 @@ public class GameBoard : MonoBehaviour
     [SerializeField] private float _yOffset = 0.2f;
     [SerializeField] private Vector3 _boardCenter = Vector3.zero;
     [SerializeField] GameController _controller;
-    GamePiece[,] _gamePieces;
-
+      
     [Header("Prefabs")]
     [SerializeField] private GameObject[] _prefabs;
     [SerializeField] private Vector3 _bounds;
         
     GetAvailableMoves _getAvailableMoves;
     private const float _tileCount_X = 5;
-    private const float _tileCount_Y = 5;
+    private const float _tileCount_Z = 5;
     private int _playerOneTeam = 0;
     private int _playerTwoTeam = 1;
+    private int _positionOffset = 2;
     private string _tileTag = "Tile";
     private string _highlightedTileTage = "HighLight";
     private GamePieceType _gamePieceTeam;
@@ -29,7 +29,9 @@ public class GameBoard : MonoBehaviour
     private bool _playerTwosTurn = false;
     private List<Vector2Int> _availableMoves = new List<Vector2Int>();
     private GameObject[,] _tiles;
-
+    private GamePiece[,] _gamePieces;
+    private GamePiece _gamePiece;
+    
     private void Awake()
     {
         _getAvailableMoves = GetComponent<GetAvailableMoves>();
@@ -37,13 +39,13 @@ public class GameBoard : MonoBehaviour
 
     public void GenerateBoard()
     {
-        GenerateTiles(_tileSize, _tileCount_X, _tileCount_Y);
+        GenerateTiles(_tileSize, _tileCount_X, _tileCount_Z);
         SpawnGamePieces();
         PositionGamePieces();
         
     }
 
-    private void GenerateTiles(float tileSize, float tileCountX, float tileCountY)
+    private void GenerateTiles(float tileSize, float tileCountX, float tileCountZ)
     {
         _yOffset += transform.position.y;
         _bounds = new Vector3((tileCountX / 2) * tileSize, 0,
@@ -52,27 +54,28 @@ public class GameBoard : MonoBehaviour
 
         for (int x = 0; x < tileCountX; x++)
         {
-            for (int y = 0; y < tileCountY; y++)
+            for (int z = 0; z < tileCountZ; z++)
             {
-                _tiles[x, y] = GenerateSingleTile(tileSize, x, y);
+                _tiles[x, z] = GenerateSingleTile(tileSize, x, z);
             }                
         }
     }
     
-    private GameObject GenerateSingleTile(float tileSize, int x, int y)
+    private GameObject GenerateSingleTile(float tileSize, int x, int z)
     {
-        GameObject tileObject = new GameObject(string.Format("X:{0}, Y:{1}", x, y));
+        GameObject tileObject = new GameObject(string.Format("X:{0}, Z:{1}", x, z));
         tileObject.transform.parent = transform;
 
         Mesh mesh = new Mesh();
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
         tileObject.AddComponent<MeshRenderer>().material = _tileMaterial;
+        tileObject.tag = _tileTag;
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(x * tileSize, _yOffset, y * tileSize) - _bounds;
-        vertices[1] = new Vector3(x * tileSize, _yOffset, (y + 1) * tileSize) - _bounds;
-        vertices[2] = new Vector3((x + 1) * tileSize, _yOffset, y * tileSize) - _bounds;
-        vertices[3] = new Vector3((x + 1) * tileSize, _yOffset, (y + 1) * tileSize) - _bounds;
+        vertices[0] = new Vector3(x * tileSize, _yOffset, z * tileSize) - _bounds;
+        vertices[1] = new Vector3(x * tileSize, _yOffset, (z + 1) * tileSize) - _bounds;
+        vertices[2] = new Vector3((x + 1) * tileSize, _yOffset, z * tileSize) - _bounds;
+        vertices[3] = new Vector3((x + 1) * tileSize, _yOffset, (z + 1) * tileSize) - _bounds;
 
         int[] tris = new int[] { 0, 1, 2, 1, 3, 2 };
 
@@ -88,10 +91,10 @@ public class GameBoard : MonoBehaviour
 
     private void SpawnGamePieces()
     {
-        _gamePieces = new GamePiece[(int)_tileCount_X, (int)_tileCount_Y];
+        _gamePieces = new GamePiece[(int)_tileCount_X, (int)_tileCount_Z];
 
         // player 1 pieces
-        _gamePieces[0, 1] = SpawnSinglePiece(GamePieceType.PlayerOnePiece, _playerOneTeam);
+        _gamePieces[0, 1] = SpawnSinglePiece(GamePieceType.PlayerOnePiece, _playerOneTeam);        
         _gamePieces[4, 1] = SpawnSinglePiece(GamePieceType.PlayerOnePiece, _playerOneTeam);
         for (int i = 0; i < _tileCount_X; i++)
         {
@@ -120,52 +123,50 @@ public class GameBoard : MonoBehaviour
     {
         for (int x = 0; x < _tileCount_X; x++)
         {
-            for (int y = 0; y < _tileCount_Y; y++)
+            for (int z = 0; z < _tileCount_Z; z++)
             {
-                if (_gamePieces[x, y] != null)
+                if (_gamePieces[x, z] != null)
                 {
-                    PositionSinglePiece(x, y, true);
+                    PositionSinglePiece(x, z, true);
                 }
             }
         }
     }
 
-    private void PositionSinglePiece(int x, int y, bool force = false)
+    private void PositionSinglePiece(int x, int z, bool force = false)
     {        
-        _gamePieces[x, y].CurrentX = x;
-        _gamePieces[x, y].CurrentX = y;
-        _gamePieces[x, y].SetPosition(GetTileCenter(x, y), force);        
+        _gamePieces[x, z].CurrentX = x;
+        _gamePieces[x, z].CurrentZ = z;
+        _gamePieces[x, z].SetPosition(GetTileCenter(x, z), force);        
     }
 
-    private Vector3 GetTileCenter(int x, int y)
+    private Vector3 GetTileCenter(int x, int z)
     {
-        return new Vector3 (x * _tileSize, _yOffset, y * _tileSize) - _bounds
+        return new Vector3 (x * _tileSize, _yOffset, z * _tileSize) - _bounds
                             + new Vector3(_tileSize / 2, 0, _tileSize / 2);
     }
     
     
-    public List<Vector2Int> GetMoves(GamePiece gamePiece)
+    public List<Vector2Int> GetMoves(Collider collider)
     {
-        int pieceCurrentX = gamePiece.CurrentX;
-        int pieceCurrentY = gamePiece.CurrentY;
+        GameObject _gamePiece = collider.gameObject;
 
-        _availableMoves = _getAvailableMoves?.AvailableMoves(gamePiece, pieceCurrentX, pieceCurrentY);
+        _availableMoves = _gamePiece?.GetComponent<GetAvailableMoves>().AvailableMoves(_gamePieces);
 
-        if (_availableMoves.Count > 0)
+        if (_availableMoves?.Count > 0)
         {
             HighlightTiles();
             return _availableMoves;
         }
         else
             return null;
-
     }
 
     private void HighlightTiles()
     {
         for (int i = 0; i < _availableMoves.Count; i++)
         {
-            _tiles[_availableMoves[i].x, _availableMoves[i].y].layer = LayerMask.NameToLayer(_highlightedTileTage);
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _highlightedTileTage;
             _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _hightlightMaterial;
         }
     }
@@ -174,7 +175,7 @@ public class GameBoard : MonoBehaviour
     {
         for (int i = 0; i < _availableMoves.Count; i++)
         {
-            _tiles[_availableMoves[i].x, _availableMoves[i].y].layer = LayerMask.NameToLayer("Tile");
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _tileTag;
             _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _tileMaterial;
         }
         

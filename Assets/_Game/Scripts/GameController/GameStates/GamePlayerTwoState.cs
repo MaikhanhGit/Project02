@@ -7,9 +7,10 @@ public class GamePlayerTwoState : State
 {
     private GameFSM _stateMachine;
     private GameController _controller;
-    private GamePiece _curGamePiece;
     private GameBoard _gameBoard;
     private List<Vector2Int> _availableMoves;
+    private GamePiece[,] _gamePieces;
+    private GamePiece _curGamePiece;
 
     private string _playerTwoTag = "PlayerTwo";
     private bool _gamePiecePickedUp = false;
@@ -57,14 +58,16 @@ public class GamePlayerTwoState : State
         if (collider.tag == _playerTwoTag)
         {
             _gamePiecePickedUp = true;
-            GameObject gamePiece = collider.gameObject;
-            _curGamePiece = gamePiece.GetComponent<GamePiece>();
+
+            _curGamePiece = collider.gameObject.GetComponent<GamePiece>();
             _controller.SetCurrentGamePiece(_curGamePiece);
             _curGamePiece.PickedUp();
 
-            _availableMoves = _gameBoard.GetMoves(_curGamePiece);
+            _availableMoves = _gameBoard.GetMoves(collider);
+
             if (_availableMoves != null)
             {
+                _gamePiecePickedUp = false;
                 _stateMachine.ChangeState(_stateMachine.GameMoveState);
             }
         }

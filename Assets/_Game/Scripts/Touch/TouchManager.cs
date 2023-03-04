@@ -65,7 +65,8 @@ public class TouchManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                TouchPressed.Invoke(hit.collider);               
+                Debug.Log("touch input; " + hit.collider.transform.position.x + "," + hit.collider.transform.position.z);
+                TouchPressed?.Invoke(hit.collider);               
             }
                 
         } 

@@ -13,18 +13,27 @@ public class GamePiece : MonoBehaviour
     public GamePieceType Type;
     public int Team;
     public int CurrentX;
-    public int CurrentY;    
-    
+    public int CurrentZ;    
+        
     private bool _piecePickedUp = false;
     private Vector3 _currentTransform;
-    private int _tileSize = 1;
+    private int _tileSize = 1;    
     private Vector3 _originalSize;
+    private GetAvailableMoves _getAvailableMoves;
 
     public bool PiecePickedUp => _piecePickedUp;
 
     private void Start()
     {
+        
         _originalSize = transform.localScale;
+    }
+
+    private void Update()
+    {
+        CurrentX = (int)transform.position.x;
+        CurrentZ = (int)transform.position.z;
+
     }
 
     public void SetPosition(Vector3 position, bool force = false)
@@ -51,7 +60,7 @@ public class GamePiece : MonoBehaviour
             Transform transform = gameObject.transform;
             transform.position = new Vector3(transform.position.x, 1, transform.position.z);
             transform.localScale += new Vector3(1f, 0.5f, 0.5f);
-            _piecePickedUp = true;           
+            _piecePickedUp = true;            
         }                
     }
 
