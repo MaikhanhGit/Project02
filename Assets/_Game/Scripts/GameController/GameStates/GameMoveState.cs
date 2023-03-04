@@ -6,7 +6,10 @@ public class GameMoveState : State
 {
     private GameFSM _stateMachine;
     private GameController _controller;
-    private State _previousState;    
+    private State _previousState;
+    private GameObject[,] _tiles;
+    private GamePiece _piece;
+    private Vector3 _offSet = new Vector3(0, 0.4f, 0);
     
     private string _highlightTag = "HighLight";
            
@@ -21,7 +24,10 @@ public class GameMoveState : State
     {
         base.Enter();
         // UI
-
+        // get currently picked up gamePiece
+        _piece = _controller.CurrentGamePiece;
+        // Get tiles from Gameboard
+        _tiles = _controller.GameBoard.Tiles;
         // touch input
         _controller.InputManager.TouchPressed += OnTouch;
 
@@ -41,25 +47,35 @@ public class GameMoveState : State
 
     private void OnTouch(Collider collider)
     {
-        GamePiece piece = _controller.CurrentGamePiece;
-
-        if (collider.tag == _highlightTag)
-        {                               
-            GameObject tile = collider.gameObject;                        
-            Transform newPosition = tile.transform;
-
-            Debug.Log("tile: " + tile);
-            Debug.Log("newPosition: " + newPosition.position);
-
-            piece.SetPosition(newPosition.position, true);
-            piece.ResetSize();
-
-            _stateMachine.ChangeState(_stateMachine.KillCheckState);
-        }
-        else
+        
+        BoxCollider boxCollider = collider.GetComponent<BoxCollider>();
+        Vector3 tileCenter = new Vector3(0,0,0);
+        
+        if (boxCollider != null)
         {
-            piece.PutDown();
-            _stateMachine.ChangeState(_previousState);
+            tileCenter = boxCollider.center;
+
+            if (boxCollider.tag == _highlightTag)
+            {
+                int x = (int)tileCenter.x;
+                int y = (int)tileCenter.y;
+                int z = (int)tileCenter.z;
+                Vector3 newPosition = new Vector3(x, y, z) + _offSet;
+
+                _piece.SetPosition(newPosition, true);
+                _piece.ResetSize();
+
+                _stateMachine.ChangeState(_stateMachine.KillCheckState);
+            }
+            else
+            {
+                _piece?.PutDown();
+                _stateMachine.ChangeState(_previousState);
+            }
         }
+
+
+
+
     }
 }

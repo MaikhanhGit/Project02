@@ -3205,7 +3205,7 @@ MonoBehaviour:
   _tileMaterial: {fileID: 2100000, guid: ca8e5e04b79642a4aa46983b60643d75, type: 2}
   _hightlightMaterial: {fileID: 2100000, guid: b649653e221f4de41b0cc37a0eeeafbe, type: 2}
   _tileSize: 1
-  _zOffset: 0.2
+  _yOffset: 0.2
   _boardCenter: {x: 0, y: 0, z: 0}
   _controller: {fileID: 1372087982}
   _prefabs:
@@ -3834,7 +3834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tapLimitDuration: 2.5
-  _setupStateDuration: 5
+  _setupStateDuration: 3
   _timeLimitToWin: 1
   _timeLimitToLose: 5
   _playerOnePrefab: {fileID: 2610037635728114037, guid: de36fd9d664e80f46b5bb7b9aaeb30ea,

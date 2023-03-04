@@ -18,15 +18,12 @@ public class GetAvailableMoves : MonoBehaviour
         List<Vector2Int> r = new List<Vector2Int>();
         int pieceCurrentX = GetComponent<GamePiece>().CurrentX + _offSetZ;
         int pieceCurrentZ = GetComponent<GamePiece>().CurrentZ + _offSetZ;
-        Debug.Log("x: " + pieceCurrentX);
-        Debug.Log("z" + pieceCurrentZ);
-
+        
         // Top
         if ((pieceCurrentZ + 1) < _TileCountX)
         {           
             if (board[pieceCurrentX, pieceCurrentZ + 1] == null)
-            {
-                Debug.Log("One");
+            {                
                 r.Add(new Vector2Int(pieceCurrentX, pieceCurrentZ + 1));
             }
         }        

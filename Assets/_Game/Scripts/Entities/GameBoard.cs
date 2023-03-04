@@ -23,15 +23,18 @@ public class GameBoard : MonoBehaviour
     private int _playerTwoTeam = 1;
     private int _positionOffset = 2;
     private string _tileTag = "Tile";
-    private string _highlightedTileTage = "HighLight";
+    private string _highlightedTileTag = "HighLight";
     private GamePieceType _gamePieceTeam;
     private bool _playerOnesTurn = false;
     private bool _playerTwosTurn = false;
     private List<Vector2Int> _availableMoves = new List<Vector2Int>();
     private GameObject[,] _tiles;
+    private GameObject[,] _hightlightedTiles;
     private GamePiece[,] _gamePieces;
     private GamePiece _gamePiece;
-    
+
+    public GameObject[,] Tiles => _tiles;
+
     private void Awake()
     {
         _getAvailableMoves = GetComponent<GetAvailableMoves>();
@@ -64,7 +67,7 @@ public class GameBoard : MonoBehaviour
     private GameObject GenerateSingleTile(float tileSize, int x, int z)
     {
         GameObject tileObject = new GameObject(string.Format("X:{0}, Z:{1}", x, z));
-        tileObject.transform.parent = transform;
+        //tileObject.transform.parent = transform;        
 
         Mesh mesh = new Mesh();
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
@@ -85,7 +88,7 @@ public class GameBoard : MonoBehaviour
 
         //tileObject.layer = LayerMask.NameToLayer(_tileTag);
         tileObject.AddComponent<BoxCollider>();
-
+        
         return tileObject;
     }
 
@@ -163,22 +166,23 @@ public class GameBoard : MonoBehaviour
     }
 
     private void HighlightTiles()
-    {
+    {        
         for (int i = 0; i < _availableMoves.Count; i++)
         {
-            _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _highlightedTileTage;
-            _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _hightlightMaterial;
+            //_hightlightedTiles[_availableMoves[i].x, _availableMoves[i].y] = _tiles[_availableMoves[i].x, _availableMoves[i].y];
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _highlightedTileTag;
+            _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _hightlightMaterial;            
         }
+        _controller.SetHightlightedTiles(_hightlightedTiles);
     }
 
-    private void RemoveHighLightTiles()
+    public void RemoveHighLightTiles(GameObject[,] tiles)
     {
-        for (int i = 0; i < _availableMoves.Count; i++)
+        for (int i = 0; i < tiles.Length; i++)
         {
             _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _tileTag;
             _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _tileMaterial;
-        }
-        
+        }        
     }
 
 }

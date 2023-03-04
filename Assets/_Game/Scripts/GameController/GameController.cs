@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
 
     private GamePiece _curGamePiece;
     private State _curPlayerState;
+    private GameObject[,] _highlightedTiles;
 
     public float TapLimitDuration => _tapLimitDuration;
     public float SetupStateDuration => _setupStateDuration;
@@ -52,9 +53,10 @@ public class GameController : MonoBehaviour
     public GameObject KillCheckText => _killCheckText;
     public GameObject WinStateUI => _winStateUI;
     public GameObject LoseStateUI => _loseStateUI;
+    public GameObject[,] HighlightedTiles => _highlightedTiles;
     public MainMenu MainMenu => _mainMenu;
     public GamePiece CurrentGamePiece => _curGamePiece;
-    public State CurrentPlayerState => _curPlayerState;
+    public State CurrentPlayerState => _curPlayerState;    
     public float TimeLimitToWin => _timeLimitToWin;
     public float TimeLimitToLose => _timeLimitToLose;
     public AudioClip WinSFX => _winSFX;
@@ -69,6 +71,19 @@ public class GameController : MonoBehaviour
     {
         _curPlayerState = state;
     }
+
+    public void SetHightlightedTiles(GameObject[,] tiles)
+    {
+        _highlightedTiles = tiles;
+    }
+
+    public void ClearHighlightedTiles()
+    {
+        _gameBoard.RemoveHighLightTiles(_highlightedTiles);
+        _highlightedTiles = null;
+        
+    }
+
     public void StartMyCoroutine(IEnumerator coroutine)
     {
         StartCoroutine(coroutine);

@@ -64,8 +64,7 @@ public class TouchManager : MonoBehaviour
             Debug.DrawRay(position, _cameraMain.transform.forward * 100, Color.green, 1f);
 
             if (Physics.Raycast(ray, out hit))
-            {
-                Debug.Log("touch input; " + hit.collider.transform.position.x + "," + hit.collider.transform.position.z);
+            {                
                 TouchPressed?.Invoke(hit.collider);               
             }
                 
