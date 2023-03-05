@@ -178,7 +178,7 @@ public class GameBoard : MonoBehaviour
 
     public void RemoveHighLightTiles(GameObject[,] tiles)
     {
-        for (int i = 0; i < tiles.Length; i++)
+        for (int i = 0; i < _availableMoves.Count; i++)
         {
             _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _tileTag;
             _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _tileMaterial;

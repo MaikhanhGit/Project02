@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class GetAvailableMoves : MonoBehaviour
 {   
-    private int _TileCountX = 4;
-    private int _TileCountY = 0;
+    private int _tileCount = 4;
+    private int _zero = 0;
     private int _offSetZ = 2;
-    
-    private void Awake()
-    {        
-        
-    }
-
+       
     public List<Vector2Int> AvailableMoves(GamePiece[,] board) 
     {        
         List<Vector2Int> r = new List<Vector2Int>();
@@ -20,7 +15,7 @@ public class GetAvailableMoves : MonoBehaviour
         int pieceCurrentZ = GetComponent<GamePiece>().CurrentZ + _offSetZ;
         
         // Top
-        if ((pieceCurrentZ + 1) < _TileCountX)
+        if ((pieceCurrentZ + 1) <= _tileCount)
         {           
             if (board[pieceCurrentX, pieceCurrentZ + 1] == null)
             {                
@@ -29,7 +24,7 @@ public class GetAvailableMoves : MonoBehaviour
         }        
 
         // Down
-        if ((pieceCurrentZ - 1) >= _TileCountY)
+        if ((pieceCurrentZ - 1) >= _zero)
         {
             if (board[pieceCurrentX, pieceCurrentZ - 1] == null)
             {
@@ -38,7 +33,7 @@ public class GetAvailableMoves : MonoBehaviour
         }
 
         // Right
-        if((pieceCurrentX + 1) <= _TileCountX)
+        if((pieceCurrentX + 1) <= _tileCount)
         {
             if(board[pieceCurrentX + 1, pieceCurrentZ] == null)
             {
@@ -47,7 +42,7 @@ public class GetAvailableMoves : MonoBehaviour
         }
 
         // Left
-        if ((pieceCurrentX - 1) >= _TileCountY)
+        if ((pieceCurrentX - 1) >= _zero)
         {            
             if (board[pieceCurrentX - 1, pieceCurrentZ] == null)
             {
@@ -56,7 +51,7 @@ public class GetAvailableMoves : MonoBehaviour
         }
 
         // Top Right
-        if((pieceCurrentX + 1) <= _TileCountX && (pieceCurrentZ + 1) <= _TileCountX)
+        if((pieceCurrentX + 1) <= _tileCount && (pieceCurrentZ + 1) <= _tileCount)
         {
             if(board[pieceCurrentX + 1, pieceCurrentZ + 1] == null)
             {
@@ -65,7 +60,7 @@ public class GetAvailableMoves : MonoBehaviour
         }
 
         // Bottom Right
-        if ((pieceCurrentX + 1) <= _TileCountX && (pieceCurrentZ - 1) >= _TileCountY)
+        if ((pieceCurrentX + 1) <= _tileCount && (pieceCurrentZ - 1) >= _zero)
         {
             if (board[pieceCurrentX + 1, pieceCurrentZ - 1] == null)
             {
@@ -74,7 +69,7 @@ public class GetAvailableMoves : MonoBehaviour
         }
 
         // Top Left
-        if ((pieceCurrentX - 1) >= _TileCountY && (pieceCurrentZ + 1) <= _TileCountX)
+        if ((pieceCurrentX - 1) >= _zero && (pieceCurrentZ + 1) <= _tileCount)
         {
             if (board[pieceCurrentX - 1, pieceCurrentZ + 1] == null)
             {
@@ -83,7 +78,7 @@ public class GetAvailableMoves : MonoBehaviour
         }
 
         // Bottom Left
-        if ((pieceCurrentX - 1) >= _TileCountY && (pieceCurrentZ - 1) >= _TileCountY)
+        if ((pieceCurrentX - 1) >= _zero && (pieceCurrentZ - 1) >= _zero)
         {
             if (board[pieceCurrentX - 1, pieceCurrentZ - 1] == null)
             {

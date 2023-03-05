@@ -31,6 +31,7 @@ public class TouchManager : MonoBehaviour
 
     public event Action<Collider> TouchPressed = delegate { };
     public event Action TouchReleased = delegate { };
+    public event Action ValidMove = delegate { };
 
     private void Awake()
     {        

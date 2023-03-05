@@ -20,7 +20,7 @@ public class GameKillCheckState : State
     public override void Enter()
     {
         base.Enter();
-
+        Debug.Log("Kill Check State");
         //_controller.KillCheckText.SetActive(true);
                 
         // check for Kills
@@ -51,10 +51,7 @@ public class GameKillCheckState : State
     {
         base.Tick();
 
-        if(StateDuration >= _delayExitDuration)
-        {
-            Exit();
-        }
+        
     }
 
    

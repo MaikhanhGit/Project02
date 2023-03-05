@@ -3834,7 +3834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tapLimitDuration: 2.5
-  _setupStateDuration: 3
+  _setupStateDuration: 1
   _timeLimitToWin: 1
   _timeLimitToLose: 5
   _playerOnePrefab: {fileID: 2610037635728114037, guid: de36fd9d664e80f46b5bb7b9aaeb30ea,
