@@ -27,6 +27,10 @@ public class GamePlayerTwoState : State
         base.Enter();
         // UI
         //_controller.PlayerTwoStateText.SetActive(true);
+        Debug.Log("Enter Player 2 State");
+        _controller.PlayerTwoStateText.SetActive(true);
+        _availableMoves = null;
+        _gamePiecePickedUp = false;
         _gameBoard = _controller.GameBoard;
         _controller.SetCurrentPlayerState(_stateMachine.CurrentState);
         _controller.InputManager.TouchPressed += OnPick;
@@ -37,9 +41,11 @@ public class GamePlayerTwoState : State
     public override void Exit()
     {
         base.Exit();
+        Debug.Log("Exit Player 2 State");
+        _controller.PlayerTwoStateText.SetActive(false);
         _controller.InputManager.TouchPressed -= OnPick;
         _controller.InputManager.TouchReleased -= OnRelease;
-        //_controller.PlayerTwoStateText.SetActive(false);
+        
         _stateMachine.ChangeState(_stateMachine.KillCheckState);        
     }
 
@@ -61,6 +67,7 @@ public class GamePlayerTwoState : State
 
             _curGamePiece = collider.gameObject.GetComponent<GamePiece>();
             _controller.SetCurrentGamePiece(_curGamePiece);
+
             _curGamePiece.PickedUp();
 
             _availableMoves = _gameBoard.GetMoves(collider);
@@ -68,8 +75,10 @@ public class GamePlayerTwoState : State
             if (_availableMoves != null)
             {
                 _gamePiecePickedUp = false;
+                // send available moves to GameController to clear later
                 _stateMachine.ChangeState(_stateMachine.GameMoveState);
             }
+
         }
     }
 

@@ -38,17 +38,6 @@ public class GameLoseState : State
     public override void Tick()
     {
         base.Tick();
-       /*
-        if (_controller?.Input?.IsTapPressed == true)
-        {            
-            if(StateDuration >= _delayExitDuration)
-            {
-                // Move to Main Menu
-                Debug.Log("Move to Main Menu");
-                _controller.MainMenu.LoadScene(0);
-            }
-            
-        }
-       */
+       
     }
 }

@@ -34,7 +34,8 @@ public class GameBoard : MonoBehaviour
     private GamePiece _gamePiece;
 
     public GameObject[,] Tiles => _tiles;
-
+    public GamePiece[,] BoardPieces => _gamePieces;
+ 
     private void Awake()
     {
         _getAvailableMoves = GetComponent<GetAvailableMoves>();
@@ -183,6 +184,17 @@ public class GameBoard : MonoBehaviour
             _tiles[_availableMoves[i].x, _availableMoves[i].y].tag = _tileTag;
             _tiles[_availableMoves[i].x, _availableMoves[i].y].GetComponent<MeshRenderer>().material = _tileMaterial;
         }        
+    }
+
+    public void RePositionPiece(GamePiece curPiece, Vector2 currentPos, Vector2 newPos)
+    {        
+        int curX = (int)currentPos.x;
+        int curZ = (int)currentPos.y;
+        int newX = (int)newPos.x;
+        int newZ = (int)newPos.y;
+        
+        _gamePieces[newX, newZ] = curPiece;
+        _gamePieces[curX, curZ] = null;
     }
 
 }

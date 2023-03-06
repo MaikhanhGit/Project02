@@ -4,24 +4,34 @@ using UnityEngine;
 
 public class KillCheck : MonoBehaviour
 {
-    [SerializeField] private float _destroyDelay = 2;
+    [SerializeField] private float _destroyDelay = 0;
     private int _tileCount = 4;    
     private int _offSetZ = 2;
     private int _killCount = 0;
     private bool _somethingKilled = false;
+    private int _myTeam;
+    private int CurrentX;
+    private int CurrentZ;
 
-    public int CheckForKills(GamePiece[,] board, int team)
+    private void Start()
     {
-        int pieceCurrentX = GetComponent<GamePiece>().CurrentX + _offSetZ;
-        int pieceCurrentZ = GetComponent<GamePiece>().CurrentZ + _offSetZ;
+        _myTeam = GetComponent<GamePiece>().Team;               
+    }
 
+    public int CheckForKills(GamePiece[,] board)
+    {
+        CurrentX = (int)transform.position.x;
+        CurrentZ = (int)transform.position.z;
+        int pieceCurrentX = CurrentX + 2;
+        int pieceCurrentZ = CurrentZ + 2;
+        
         // Up
         if ((pieceCurrentZ + 2) <= _tileCount)
         {
             GamePiece p1 = board[pieceCurrentX, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX, pieceCurrentZ + 2];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -34,7 +44,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX, pieceCurrentZ - 1];
             GamePiece p2 = board[pieceCurrentX, pieceCurrentZ - 2];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -47,7 +57,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ];
             GamePiece p2 = board[pieceCurrentX + 2, pieceCurrentZ];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -60,7 +70,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX - 1, pieceCurrentZ];
             GamePiece p2 = board[pieceCurrentX - 2, pieceCurrentZ];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -73,7 +83,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX + 2, pieceCurrentZ + 2];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -86,7 +96,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ - 1];
             GamePiece p2 = board[pieceCurrentX + 2, pieceCurrentZ - 2];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -99,7 +109,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX - 1, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX - 2, pieceCurrentZ + 2];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -112,7 +122,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX - 1, pieceCurrentZ - 1];
             GamePiece p2 = board[pieceCurrentX - 2, pieceCurrentZ - 2];
 
-            _somethingKilled = KillOne(p1, p2, team);
+            _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount++;
@@ -125,7 +135,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX, pieceCurrentZ - 1];
 
-            _somethingKilled = KillTwo(p1, p2, team);
+            _somethingKilled = KillTwo(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount += 2;
@@ -143,7 +153,7 @@ public class KillCheck : MonoBehaviour
             {
                 GamePiece p3 = board[pieceCurrentX, pieceCurrentZ + 2];
 
-                _somethingKilled = KillOnlyOne(p1, p2, p3, team);
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
                 if(_somethingKilled == true)
                 {
                     // kill 2 minus 1 double counted
@@ -155,7 +165,7 @@ public class KillCheck : MonoBehaviour
             {
                 GamePiece p3 = board[pieceCurrentX, pieceCurrentZ - 2];
 
-                _somethingKilled = KillOnlyOne(p1, p2, p3, team);
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
                 if(_somethingKilled == true)
                 {
                     // kill 2 minus 1 double counted
@@ -168,7 +178,7 @@ public class KillCheck : MonoBehaviour
                 GamePiece p3 = board[pieceCurrentX, pieceCurrentZ + 2];
                 GamePiece p4 = board[pieceCurrentX, pieceCurrentZ - 2];
 
-                _somethingKilled = KillNone(p1, p2, p3, p4, team);
+                _somethingKilled = KillNone(p1, p2, p3, p4, _myTeam);
                 if(_somethingKilled == true)
                 {
                     // kill 2 minus 2 double counted
@@ -187,7 +197,7 @@ public class KillCheck : MonoBehaviour
             {
                 GamePiece p3 = board[pieceCurrentX + 2, pieceCurrentZ];
 
-                _somethingKilled = KillOnlyOne(p1, p2, p3, team);
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
                 if(_somethingKilled == true)
                 {
                     // kill 2 minus 1 double counted
@@ -199,7 +209,7 @@ public class KillCheck : MonoBehaviour
             {
                 GamePiece p3 = board[pieceCurrentX - 2, pieceCurrentZ];
 
-                _somethingKilled = KillOnlyOne(p1, p2, p3, team);
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
                 if(_somethingKilled == true)
                 {
                     // kill 2 minus 1 double counted
@@ -212,7 +222,7 @@ public class KillCheck : MonoBehaviour
                 GamePiece p3 = board[pieceCurrentX + 2, pieceCurrentZ];
                 GamePiece p4 = board[pieceCurrentX - 2, pieceCurrentZ];
 
-                _somethingKilled = KillNone(p1, p2, p3, p4, team);
+                _somethingKilled = KillNone(p1, p2, p3, p4, _myTeam);
                 if(_somethingKilled == true)
                 {
                     // kill 2 minus 2 double counted
@@ -226,7 +236,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ];
             GamePiece p2 = board[pieceCurrentX - 1, pieceCurrentZ];
 
-            _somethingKilled = KillTwo(p1, p2, team);
+            _somethingKilled = KillTwo(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount += 2;
@@ -240,7 +250,7 @@ public class KillCheck : MonoBehaviour
             GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX - 1, pieceCurrentZ - 1];
 
-            _somethingKilled = KillTwo(p1, p2, team);
+            _somethingKilled = KillTwo(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
                 _killCount += 2;
@@ -258,7 +268,7 @@ public class KillCheck : MonoBehaviour
             {
                 GamePiece p3 = board[pieceCurrentX + 2, pieceCurrentZ + 2];
 
-                _somethingKilled = KillOnlyOne(p1, p2, p3, team);
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
                 if(_somethingKilled == true)
                 {
                     _killCount -= 1;
@@ -269,7 +279,7 @@ public class KillCheck : MonoBehaviour
             {
                 GamePiece p3 = board[pieceCurrentX - 2, pieceCurrentZ - 2];
 
-                _somethingKilled = KillOnlyOne(p1, p2, p3, team);
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
                 if(_somethingKilled == true)
                 {
                     _killCount -= 1;
@@ -282,7 +292,7 @@ public class KillCheck : MonoBehaviour
                 GamePiece p3 = board[pieceCurrentX + 2, pieceCurrentZ + 2];
                 GamePiece p4 = board[pieceCurrentX - 2, pieceCurrentZ - 2];
 
-                _somethingKilled = KillNone(p1, p2, p3, p4, team);
+                _somethingKilled = KillNone(p1, p2, p3, p4, _myTeam);
                 if(_somethingKilled == true)
                 {
                     _killCount -= 2;
@@ -300,7 +310,7 @@ public class KillCheck : MonoBehaviour
         {
             // TODO sfx, feedBack
 
-            StartCoroutine(StartDestroyOne(p1));            
+            StartDestroyOne(p1);            
             return true;
         }
         return false;
@@ -312,10 +322,10 @@ public class KillCheck : MonoBehaviour
                 p2 != null && p2.Team != team)
         {
             //TODO feedback
-            StartCoroutine(StartDestroyTwo(p1, p2));
+            StartDestroyTwo(p1, p2);
             return true;
         }        
-            return false;
+        return false;
     }
 
     private bool KillOnlyOne(GamePiece p1, GamePiece p2, GamePiece p3, int team)
@@ -351,21 +361,21 @@ public class KillCheck : MonoBehaviour
     private void EliminateTwo(GamePiece p1, GamePiece p2)
     {
         //TODO feedback
-        StartCoroutine(StartDestroyTwo(p1, p2));
+        StartDestroyTwo(p1, p2);
     }
 
-    private IEnumerator StartDestroyOne(GamePiece p)
+    private void StartDestroyOne(GamePiece p)
     {
         // TODO feedback
-        yield return new WaitForSeconds(_destroyDelay);
+       // yield return new WaitForSeconds(_destroyDelay);
         Destroy(p.gameObject);
         p = null;
     }
 
-    private IEnumerator StartDestroyTwo(GamePiece p1, GamePiece p2)
+    private void StartDestroyTwo(GamePiece p1, GamePiece p2)
     {
         // TODO feedback
-        yield return new WaitForSeconds(_destroyDelay);
+       // yield return new WaitForSeconds(_destroyDelay);
 
         Destroy(p1.gameObject);
         Destroy(p2.gameObject);

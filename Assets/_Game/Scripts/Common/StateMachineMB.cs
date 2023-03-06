@@ -13,11 +13,13 @@ public class StateMachineMB : MonoBehaviour
     private bool _inTransition = false;
 
     public void ChangeState(State newState)
-    {
-        // ensure wew're ready for a new State
+    {        
+        // ensure wew're ready for a new State        
         if (CurrentState == newState || _inTransition)
+        {            
             return;
-
+        }           
+        
         ChangeStateSequence(newState);
     }
 
@@ -25,33 +27,39 @@ public class StateMachineMB : MonoBehaviour
     {
         _inTransition = true;
         // run our exit sequence before moving to new state
-        CurrentState?.Exit();
-        if(newState != null) 
-             StoreStateAsPrevious(CurrentState, newState);
+        CurrentState?.Exit();           
+        StoreStateAsPrevious(newState);
 
         CurrentState = newState;
 
         // begin our new EnterSequence
+        _inTransition = false;
         CurrentState?.Enter();
-        _inTransition = false;        
+        //
+        //BUG
+        //_inTransition = false;
+
     }
 
-    private void StoreStateAsPrevious(State currentState, State newState)
+    private void StoreStateAsPrevious(State newState)
     {
         // if there is no previous state, this is our first
-        if (_previousState == null && currentState != null)
+        if (_previousState == null && newState != null)
             _previousState = newState;   
         // otherwise, store our current state as previous
-        else if(_previousState != null && currentState != null)
+        else if(_previousState != null && CurrentState != null)
         {
             _previousState = CurrentState;
-        }
+        }        
     }
 
     public void ChangeStateToPrevious()
     {
         if (_previousState != null)
+        {            
             ChangeState(_previousState);
+        }
+            
         else
             Debug.LogWarning("There is no previous state to change to!");
     }

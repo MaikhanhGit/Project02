@@ -9,16 +9,16 @@ public class GameMoveState : State
     private State _previousState;
     private GameObject[,] _tiles;
     private GamePiece _piece;
+    private GameBoard _board;
     private Vector3 _offSet = new Vector3(0, 0.4f, 0);
     
     private string _highlightTag = "HighLight";
     private bool _validMove = false;
            
-    public GameMoveState(GameFSM stateMachine, GameController controller, State previousState)
-    {
+    public GameMoveState(GameFSM stateMachine, GameController controller)
+    {        
         _stateMachine = stateMachine;
-        _controller = controller;
-        _previousState = previousState;       
+        _controller = controller;        
     }
 
     public override void Enter()
@@ -26,6 +26,8 @@ public class GameMoveState : State
         base.Enter();
         // UI
         // get currently picked up gamePiece
+        
+        Debug.Log("Enter Move State");
         _piece = _controller.CurrentGamePiece;
         // Get tiles from Gameboard
         _tiles = _controller.GameBoard.Tiles;
@@ -36,6 +38,7 @@ public class GameMoveState : State
     public override void Exit()
     {
         base.Exit();
+        Debug.Log("Exit Move State");
         _controller.InputManager.TouchPressed -= OnTouch;
     }
 
@@ -59,23 +62,38 @@ public class GameMoveState : State
             {
                 int x = (int)tileCenter.x;
                 int y = (int)tileCenter.y;
-                int z = (int)tileCenter.z;
-                Vector3 newPosition = new Vector3(x, y, z) + _offSet;
+                int z = (int)tileCenter.z;                
 
-                _piece.SetPosition(newPosition, true);                
+                int curX = (int)_piece.transform.position.x;
+                int curZ = (int)_piece.transform.position.z;
+
+                Vector3 newPosition = new Vector3(x, y, z) + _offSet;
+                Vector2 currentPos = new Vector2(curX, curZ) + new Vector2 (2,2);
+                Vector2 newPos = new Vector2 (x, z) + new Vector2(2, 2);
+
+                _board = _controller.GameBoard;
+                _board.RePositionPiece(_piece, currentPos, newPos);
+                _piece.SetPosition(newPosition, true);
                 _piece.ResetSize();
                 _controller.ClearHighlightedTiles();
                 _validMove = true;
                 _stateMachine.ChangeState(_stateMachine.KillCheckState);
             }
             else
-            {
-                _piece?.PutDown();
-                _controller.ClearHighlightedTiles();
-                _validMove = false;
-                _stateMachine.ChangeState(_previousState);
-            }
+                StartExit();
         }
+        else
+        {
+            StartExit();
+        }
+    }
+
+    private void StartExit()
+    {       
+        _piece?.PutDown();
+        _controller.ClearHighlightedTiles();
+        _validMove = false;
+        _stateMachine.ChangeStateToPrevious();
     }
    
 }

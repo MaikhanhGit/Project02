@@ -39,11 +39,11 @@ public class GamePiece : MonoBehaviour
     public void SetPosition(Vector3 position, bool force = false)
     {
         // TODO: player sfx
-        Vector3 desiredPosition;
-        desiredPosition = position;
+        //Vector3 desiredPosition;
+        //desiredPosition = position;
         if(force == true)
         {
-            transform.position = desiredPosition;
+            transform.position = position;
         }
     }
 
@@ -54,19 +54,17 @@ public class GamePiece : MonoBehaviour
             PutDown();
         }
         else if(_piecePickedUp == false)
-        {
-            Debug.Log("Up");
+        {          
             _currentTransform = gameObject.transform.position;
             Transform transform = gameObject.transform;
             transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-            transform.localScale += new Vector3(1f, 0.5f, 0.5f);
+            transform.localScale += new Vector3(0.85f, 0.1f, 0.1f);
             _piecePickedUp = true;            
         }                
     }
 
     public void PutDown()
     {
-        Debug.Log("Down");
         Transform transform = this.gameObject.transform;
         transform.position = _currentTransform;
         ResetSize();

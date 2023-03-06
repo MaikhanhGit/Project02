@@ -36,7 +36,8 @@ public class GameController : MonoBehaviour
     private GamePiece _curGamePiece;
     private State _curPlayerState;
     private GameObject[,] _highlightedTiles;
-
+    private int _wonTeam = -1;
+        
     public float TapLimitDuration => _tapLimitDuration;
     public float SetupStateDuration => _setupStateDuration;
     public GamePiece PlayerOnePrefab => _playerOnePrefab;
@@ -56,17 +57,25 @@ public class GameController : MonoBehaviour
     public GameObject[,] HighlightedTiles => _highlightedTiles;
     public MainMenu MainMenu => _mainMenu;
     public GamePiece CurrentGamePiece => _curGamePiece;
-    public State CurrentPlayerState => _curPlayerState;    
-    public float TimeLimitToWin => _timeLimitToWin;
-    public float TimeLimitToLose => _timeLimitToLose;
+    public State CurrentPlayerState => _curPlayerState;
+    public int WonTeam => _wonTeam;
     public AudioClip WinSFX => _winSFX;
     public AudioClip LoseSFX => _loseSFX;
 
+    
     public void SetCurrentGamePiece(GamePiece piece)
     {
         _curGamePiece = piece;
     }
-    
+
+    public void ClearCurrentGamePiece()
+    {
+        if(_curGamePiece != null)
+        {
+            _curGamePiece = null;
+        }
+    }
+
     public void SetCurrentPlayerState(State state)
     {
         _curPlayerState = state;
@@ -84,8 +93,10 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void StartMyCoroutine(IEnumerator coroutine)
+    public void SetWonTeam(int team)
     {
-        StartCoroutine(coroutine);
+        _wonTeam = team;
     }
+        
+    
 }
