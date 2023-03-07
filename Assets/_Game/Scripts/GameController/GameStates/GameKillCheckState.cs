@@ -22,9 +22,7 @@ public class GameKillCheckState : State
 
     public override void Enter()
     {
-        base.Enter();
-        Debug.Log("Enter Kill Check State");
-        
+        base.Enter();        
         StartKillCheck();
     }
 
@@ -34,7 +32,7 @@ public class GameKillCheckState : State
 
         if(_playerOneCount <= 0)
         {
-            _controller.SetWonTeam(1);
+            _controller.SetWonTeam( 1);
         }
         else if(_playerTwoCount <= 0)
         {
@@ -72,18 +70,14 @@ public class GameKillCheckState : State
 
     private void CheckEndGame(int kills)
     {
-        Debug.Log("previous player: " + _previousPlayerState);
         
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
         {
-            _playerTwoCount -= kills;
-            Debug.Log("player 2 count: " + _playerTwoCount);
-
+            _playerTwoCount -= kills;           
         }
         else if (_previousPlayerState == _stateMachine.PlayerTwoPlayState)
         {
-            _playerOneCount -= kills;
-            Debug.Log("player 1 count: " + _playerOneCount);
+            _playerOneCount -= kills;            
         }
     }
 
@@ -92,20 +86,17 @@ public class GameKillCheckState : State
         //_controller.KillCheckText.SetActive(false);
 
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
-        {
-            Debug.Log("Moving To Player 2");
+        {            
             _stateMachine.ChangeState(_stateMachine.PlayerTwoPlayState);
         }
         else if (_previousPlayerState == _stateMachine.PlayerTwoPlayState)
-        {
-            Debug.Log("Moving To Player 1");
+        {           
             _stateMachine.ChangeState(_stateMachine.PlayerOnePlayState);
         }
     }
 
     public override void Exit()
-    {
-        Debug.Log("Exit Kill Check State");
+    {       
         base.Exit();
     }
 

@@ -15,11 +15,13 @@ public class KillCheck : MonoBehaviour
 
     private void Start()
     {
-        _myTeam = GetComponent<GamePiece>().Team;               
+        _myTeam = GetComponent<GamePiece>().Team;        
     }
 
     public int CheckForKills(GamePiece[,] board)
     {
+        _killCount = 0;
+
         CurrentX = (int)transform.position.x;
         CurrentZ = (int)transform.position.z;
         int pieceCurrentX = CurrentX + 2;
@@ -186,7 +188,18 @@ public class KillCheck : MonoBehaviour
                 }
             }            
         }
+        //sides
+        if ((pieceCurrentX + 1) <= _tileCount && (pieceCurrentX - 1) >= 0)
+        {
+            GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ];
+            GamePiece p2 = board[pieceCurrentX - 1, pieceCurrentZ];
 
+            _somethingKilled = KillTwo(p1, p2, _myTeam);
+            if (_somethingKilled == true)
+            {
+                _killCount += 2;
+            }
+        }
         // sides repeated kill count fix
         if ((pieceCurrentX + 1) <= _tileCount && (pieceCurrentX - 1) >= 0)
         {
@@ -230,18 +243,7 @@ public class KillCheck : MonoBehaviour
                 }
             }
         }
-        //sides
-        if((pieceCurrentX + 1) <= _tileCount && (pieceCurrentX - 1) >= 0)
-        {
-            GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ];
-            GamePiece p2 = board[pieceCurrentX - 1, pieceCurrentZ];
-
-            _somethingKilled = KillTwo(p1, p2, _myTeam);
-            if(_somethingKilled == true)
-            {
-                _killCount += 2;
-            }
-        }
+        
 
         //right diagonal
         if((pieceCurrentX + 1) <= _tileCount && (pieceCurrentX - 1) >= 0

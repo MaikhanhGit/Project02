@@ -96,7 +96,19 @@ public class GameController : MonoBehaviour
     public void SetWonTeam(int team)
     {
         _wonTeam = team;
-        Debug.Log("Team " + _wonTeam + " won!");
+        if(_wonTeam == 0)
+        {
+            Debug.Log("Player 1 won!");
+        }
+        else if(_wonTeam == 1)
+        {
+            Debug.Log("Player 2 won!");
+        }
+        else if(_wonTeam == 2)
+        {
+            Debug.Log("Game Tie!");
+        }
+        
     }
         
     

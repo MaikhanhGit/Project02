@@ -27,8 +27,7 @@ public class GamePlayerOneState : State
     {
         base.Enter();
         // UI
-        _controller.PlayerOneStateText.SetActive(true);
-        Debug.Log("Enter Player 1 State");
+        _controller.PlayerOneStateText.SetActive(true);        
         _availableMoves = null;
         _gamePiecePickedUp = false;
         _gameBoard = _controller.GameBoard;
@@ -39,8 +38,7 @@ public class GamePlayerOneState : State
 
     public override void Exit()
     {
-        base.Exit();
-        Debug.Log("Exit Player 1 State");
+        base.Exit();        
         _controller.PlayerOneStateText.SetActive(false);
         _controller.InputManager.TouchPressed -= OnPick;          
         
