@@ -96,6 +96,7 @@ public class GameController : MonoBehaviour
     public void SetWonTeam(int team)
     {
         _wonTeam = team;
+        Debug.Log("Team " + _wonTeam + " won!");
     }
         
     

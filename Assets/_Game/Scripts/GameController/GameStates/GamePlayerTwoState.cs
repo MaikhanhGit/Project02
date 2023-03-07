@@ -32,7 +32,7 @@ public class GamePlayerTwoState : State
         _availableMoves = null;
         _gamePiecePickedUp = false;
         _gameBoard = _controller.GameBoard;
-        _controller.SetCurrentPlayerState(_stateMachine.CurrentState);
+        _controller.SetCurrentPlayerState(_stateMachine.PlayerTwoPlayState);
         _controller.InputManager.TouchPressed += OnPick;
         _controller.InputManager.TouchReleased += OnRelease;
 

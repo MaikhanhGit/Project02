@@ -130,7 +130,7 @@ public class KillCheck : MonoBehaviour
         }
 
         // Up & Down
-        if((pieceCurrentZ + 1) <= _killCount && (pieceCurrentZ - 1) >= 0)
+        if((pieceCurrentZ + 1) <= _tileCount && (pieceCurrentZ - 1) >= 0)
         {
             GamePiece p1 = board[pieceCurrentX, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX, pieceCurrentZ - 1];
@@ -297,10 +297,70 @@ public class KillCheck : MonoBehaviour
                 {
                     _killCount -= 2;
                 }
+            }            
+        }
+        // left diagonal
+        if ((pieceCurrentX + 1) <= _tileCount && (pieceCurrentX - 1) >= 0 &&
+                (pieceCurrentZ + 1) <= _tileCount && (pieceCurrentZ - 1) >= 0)
+        {
+            GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ - 1];
+            GamePiece p2 = board[pieceCurrentX - 1, pieceCurrentZ + 1];
+
+            _somethingKilled = KillTwo(p1, p2, _myTeam);
+            if(_somethingKilled == true)
+            {
+                _killCount += 2;
             }
         }
+        // left diagonal Repeated kill fix
+        if ((pieceCurrentX + 1) <= _tileCount && (pieceCurrentX - 1) >= 0 &&
+                (pieceCurrentZ + 1) <= _tileCount && (pieceCurrentZ - 1) >= 0)
+        {
+            GamePiece p1 = board[pieceCurrentX + 1, pieceCurrentZ - 1];
+            GamePiece p2 = board[pieceCurrentX - 1, pieceCurrentZ + 1];
 
-        return _killCount;
+            // top 2 down 1
+            if((pieceCurrentX - 2) >= 0 && (pieceCurrentZ + 2) <= _tileCount)
+            {
+                GamePiece p3 = board[pieceCurrentX - 2, pieceCurrentZ + 2];
+
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
+                if(_somethingKilled == true)
+                {
+                    // kill 2 minus 1 double counted
+                    _killCount -= 1;
+                }
+            }
+            // top 1 down 2
+            if((pieceCurrentX + 2) <= _tileCount && (pieceCurrentZ - 2) >= 0)
+            {
+                GamePiece p3 = board[pieceCurrentX + 2, pieceCurrentZ - 2];
+
+                _somethingKilled = KillOnlyOne(p1, p2, p3, _myTeam);
+                if(_somethingKilled == true)
+                {
+                    // kill 2 minus 1
+                    _killCount -= 1;
+                }
+            }
+            // top 2 down 2
+            if((pieceCurrentX + 2) <= _tileCount && (pieceCurrentZ + 2) <= _tileCount &&
+                (pieceCurrentX - 2) >= 0 && (pieceCurrentZ - 2) >= 0)
+            {
+                GamePiece p3 = board[pieceCurrentX - 2, pieceCurrentZ + 2];
+                GamePiece p4 = board[pieceCurrentX + 2, pieceCurrentZ - 2];
+
+                _somethingKilled = KillNone(p1, p2, p3, p4, _myTeam);
+                if(_somethingKilled == true)
+                {
+                    // kill 2 minus 2 double counted
+                    _killCount -= 2;
+                }
+            }
+
+        }
+
+            return _killCount;
     }       
 
     private bool KillOne(GamePiece p1, GamePiece p2, int team)

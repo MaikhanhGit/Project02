@@ -32,10 +32,9 @@ public class GamePlayerOneState : State
         _availableMoves = null;
         _gamePiecePickedUp = false;
         _gameBoard = _controller.GameBoard;
-        _controller.SetCurrentPlayerState(_stateMachine.CurrentState);
+        _controller.SetCurrentPlayerState(_stateMachine.PlayerOnePlayState);
         _controller.InputManager.TouchPressed += OnPick;
-        _controller.InputManager.TouchReleased += OnRelease;              
-                 
+        
     }
 
     public override void Exit()
@@ -43,13 +42,11 @@ public class GamePlayerOneState : State
         base.Exit();
         Debug.Log("Exit Player 1 State");
         _controller.PlayerOneStateText.SetActive(false);
-        _controller.InputManager.TouchPressed -= OnPick;
-        _controller.InputManager.TouchReleased -= OnRelease;      
+        _controller.InputManager.TouchPressed -= OnPick;          
         
         _stateMachine.ChangeState(_stateMachine.KillCheckState);
         
     }
-
     
     private void OnPick(Collider collider)
     {        
@@ -73,41 +70,6 @@ public class GamePlayerOneState : State
             
         }
     }
-
-    private void OnRelease()
-    {
-
-    }
    
-        // check Kills
-
-        // check Win/Lose/Tie
-
-
-        /* PLACE HOLDER
-        // check if touch, if yes, move player 1 to touch position
-
-        if(StateDuration <= 1 && _controller?.Input?.IsTapPressed == true)
-        {
-            _controller.PlayerOneStateText.SetActive(false);
-            _stateMachine.ChangeState(_stateMachine.GameWinState);
-        }
-        else if (StateDuration < _controller.TimeLimitToLose && _controller?.Input?.IsTapPressed == true)
-        {
-            Exit();
-            //Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionInput.ReadValue<Vector2>());
-            //position.z = _playerOne.transform.position.z;
-            //_playerOne.transform.position = position;            
-            //_playerOne?.MovePlayerOne(position);
-        }
-        else if (StateDuration >= _controller.TimeLimitToLose)
-        {
-            _controller.PlayerOneStateText.SetActive(false);
-            _stateMachine.ChangeState(_stateMachine.GameLoseState);
-        }
-        */
-
-    
-    
         
 }

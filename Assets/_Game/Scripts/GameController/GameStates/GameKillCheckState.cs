@@ -30,11 +30,7 @@ public class GameKillCheckState : State
 
     public override void Tick()
     {
-        base.Tick();
-        if(StateDuration >= _delayExitDuration)
-        {
-            StartExit();
-        }
+        base.Tick();        
 
         if(_playerOneCount <= 0)
         {
@@ -47,6 +43,11 @@ public class GameKillCheckState : State
         else if(_playerOneCount == 1 && _playerTwoCount == 1)
         {
             _controller.SetWonTeam(2);
+        }
+
+        if (StateDuration >= _delayExitDuration)
+        {
+            StartExit();
         }
     }
 
@@ -71,13 +72,18 @@ public class GameKillCheckState : State
 
     private void CheckEndGame(int kills)
     {
+        Debug.Log("previous player: " + _previousPlayerState);
+        
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
         {
-            _playerTwoCount -= kills;            
+            _playerTwoCount -= kills;
+            Debug.Log("player 2 count: " + _playerTwoCount);
+
         }
         else if (_previousPlayerState == _stateMachine.PlayerTwoPlayState)
         {
             _playerOneCount -= kills;
+            Debug.Log("player 1 count: " + _playerOneCount);
         }
     }
 
