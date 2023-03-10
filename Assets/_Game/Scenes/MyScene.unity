@@ -3603,6 +3603,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e16f08b18f8fa40b63a24dcaf2e374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _music: {fileID: 0}
+  _ambience: {fileID: 0}
+  _onButtonClick: {fileID: 0}
+  _musicVolume: 0.3
+  _ambienceVolume: 0.5
 --- !u!114 &1372087985
 MonoBehaviour:
   m_ObjectHideFlags: 0
