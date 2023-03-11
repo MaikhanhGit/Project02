@@ -97,6 +97,8 @@ MonoBehaviour:
   _killedParticle: {fileID: 19800000, guid: b8ad56b28a6aaf147b1b3c7499274392, type: 3}
   _landingParticle: {fileID: 8205706795460263316, guid: 522122e17693e174c8a7138446f9513b,
     type: 3}
+  _landingSFX: {fileID: 8300000, guid: 5da2b35b4b4085e47b22e6f15bfde72f, type: 3}
+  _killedSFX: {fileID: 8300000, guid: 64c78ace25dcfd649b9de52d1c3a66c7, type: 3}
   Type: 1
   Team: 1
   CurrentX: 0

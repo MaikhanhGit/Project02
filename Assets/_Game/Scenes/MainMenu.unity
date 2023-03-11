@@ -1847,7 +1847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _music: {fileID: 8300000, guid: 44182ec8d79f62a4ba3288633a6cc1bd, type: 3}
   _ambience: {fileID: 8300000, guid: a843f322aabda5e4d9f48ec2989dc88b, type: 3}
-  _onButtonClick: {fileID: 8300000, guid: e639a544df37e3743b53d0808ea49d19, type: 3}
+  _onButtonClick: {fileID: 8300000, guid: 4f49fa15a0a65de42b309352c5d31b7a, type: 3}
   _musicVolume: 0.3
   _ambienceVolume: 0.5
 --- !u!95 &912106814

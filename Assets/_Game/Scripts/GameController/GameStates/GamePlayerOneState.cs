@@ -25,7 +25,7 @@ public class GamePlayerOneState : State
 
     public override void Enter()
     {
-        base.Enter();         
+        base.Enter();              
         _controller.PlayerOneStateText.SetActive(true);        
         _availableMoves = null;
         _gamePiecePickedUp = false;
@@ -37,7 +37,7 @@ public class GamePlayerOneState : State
 
     public override void Exit()
     {
-        base.Exit();               
+        base.Exit();       
         _controller.InputManager.TouchPressed -= OnPick;          
         
         _stateMachine.ChangeState(_stateMachine.KillCheckState);
@@ -65,7 +65,6 @@ public class GamePlayerOneState : State
             }                 
             
         }
-    }
+    }   
    
-        
 }

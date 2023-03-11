@@ -14,6 +14,8 @@ public class GamePiece : MonoBehaviour
     [SerializeField] Animator _animator;
     [SerializeField] ParticleSystem _killedParticle;
     [SerializeField] ParticleSystem _landingParticle;
+    [SerializeField] AudioClip _landingSFX;
+    [SerializeField] AudioClip _killedSFX;
 
     public GamePieceType Type;
     public int Team;
@@ -23,7 +25,8 @@ public class GamePiece : MonoBehaviour
     private float _happyAnimDuration = 1;
     private float _downAnimDuration = 1;
 
-    private bool _piecePickedUp = false;    
+    private bool _piecePickedUp = false;
+    private bool _alreadySetUp = false;
     private Vector3 _currentTransform;    
     private Vector3 _originalSize;
     private GetAvailableMoves _getAvailableMoves;
@@ -59,8 +62,12 @@ public class GamePiece : MonoBehaviour
             ParticleSystem landParticle =
             Instantiate(_landingParticle, position, Quaternion.identity);
             landParticle.Play();
-            _piecePickedUp = false;
-
+            if(_alreadySetUp == true)
+            {
+                AudioHelper.PlayClip2D(_landingSFX, 1);                
+            }
+            _alreadySetUp = true;
+            _piecePickedUp = false;            
         }
     }
 
@@ -89,6 +96,7 @@ public class GamePiece : MonoBehaviour
         ParticleSystem landParticle =
            Instantiate(_landingParticle, this.transform.position, Quaternion.identity);
         landParticle.Play();
+        AudioHelper.PlayClip2D(_landingSFX, 1);
         _piecePickedUp = false;        
     }    
     
@@ -98,6 +106,7 @@ public class GamePiece : MonoBehaviour
         ParticleSystem killedParticle = 
             Instantiate(_killedParticle, transform.position + new Vector3 (0, 1, 0), Quaternion.identity);        
         killedParticle.Play();
+        AudioHelper.PlayClip2D(_killedSFX, 1);
     }
    
 

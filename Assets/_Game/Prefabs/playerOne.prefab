@@ -64,6 +64,8 @@ MonoBehaviour:
   _animator: {fileID: 8499610740946849482}
   _killedParticle: {fileID: 19800000, guid: 1ddfc06af0f94704fbe00321e9f64364, type: 3}
   _landingParticle: {fileID: 19800018, guid: 774bcdef5d376244c8249915c9bf9a62, type: 3}
+  _landingSFX: {fileID: 8300000, guid: df49cf80e8311ec4aadfbc6b81e7e4db, type: 3}
+  _killedSFX: {fileID: 8300000, guid: eb1c7922e15878144aad14e3de43d5c1, type: 3}
   Type: 0
   Team: 0
   CurrentX: 0

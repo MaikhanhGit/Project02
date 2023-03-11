@@ -24,36 +24,21 @@ public class GamePlayerTwoState : State
 
     public override void Enter()
     {
-        base.Enter();
-        
+        base.Enter();        
         _controller.PlayerTwoStateText.SetActive(true);
         _availableMoves = null;
         _gamePiecePickedUp = false;
         _gameBoard = _controller.GameBoard;
         _controller.SetCurrentPlayerState(_stateMachine.PlayerTwoPlayState);
-        _controller.InputManager.TouchPressed += OnPick;
-        _controller.InputManager.TouchReleased += OnRelease;
-
+        _controller.InputManager.TouchPressed += OnPick;        
     }
 
     public override void Exit()
     {
-        base.Exit();               
-        _controller.InputManager.TouchPressed -= OnPick;
-        _controller.InputManager.TouchReleased -= OnRelease;
-        
+        base.Exit();        
+        _controller.InputManager.TouchPressed -= OnPick;                
         _stateMachine.ChangeState(_stateMachine.KillCheckState);        
-    }
-
-    public override void FixedTick()
-    {
-        base.FixedTick();
-    }
-
-    public override void Tick()
-    {
-        base.Tick();
-    }
+    }    
         
     private void OnPick(Collider collider)
     {
@@ -74,13 +59,11 @@ public class GamePlayerTwoState : State
                 // send available moves to GameController to clear later
                 _stateMachine.ChangeState(_stateMachine.GameMoveState);
             }
-
         }
     }
 
-    private void OnRelease()
+    private void OnAlert()
     {
-        
+        _controller.PlayerOneRedOn();
     }
-
 }

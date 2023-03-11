@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGameState : State
 {
@@ -11,6 +12,9 @@ public class EndGameState : State
     private int _playerOneWon = 0;
     private int _playerTwoWon = 1;
     private int _tieGame = 2;
+    private int _playerOneWonScene = 2;
+    private int _playerTwoWonScene = 3;
+    private int _tieGameScene = 4;
 
     public EndGameState (GameFSM stateMachine, GameController controller)
     {
@@ -21,31 +25,41 @@ public class EndGameState : State
 
     public override void Enter()
     {
-        base.Enter();                
-        
-        _wonTeam = _controller.WonTeam;       
+        base.Enter();
+        _controller.PlayerEndGameSFX();
+        _wonTeam = _controller.WonTeam;
 
-        if (_wonTeam == _playerOneWon)
-        {
-            Debug.Log("Player 1 Won");
-        }
-        else if(_wonTeam == _playerTwoWon)
-        {
-            Debug.Log("Player 2 Won");
-        }
-        else if(_wonTeam == _tieGame)
-        {
-            Debug.Log("Tie");
-        }    
+               
     }
-    
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if (StateDuration >= _delayExitDuration)
+        {
+            if (_wonTeam == _playerOneWon)
+            {
+                SceneManager.LoadScene(_playerOneWonScene);
+            }
+            else if (_wonTeam == _playerTwoWon)
+            {
+                SceneManager.LoadScene(_playerTwoWonScene);
+            }
+            else if (_wonTeam == _tieGame)
+            {
+                SceneManager.LoadScene(_tieGameScene);
+            }
+        }
+
+    }
 
     public override void Exit()
     {
         base.Exit();
+
         
     }
 
-
-   
+  
 }

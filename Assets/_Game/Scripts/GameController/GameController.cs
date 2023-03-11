@@ -23,12 +23,14 @@ public class GameController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject _setupStateText;
     [SerializeField] private GameObject _playerOneStateText;
-    [SerializeField] private GameObject _playerTwoStateText;        
-    [SerializeField] private MainMenu _mainMenu;
-    [SerializeField] private GameObject _playerOneWonPromp;
-    [SerializeField] private GameObject _playerTwpWonPromp;
-
-    [Header ("SFX")]     
+    [SerializeField] private GameObject _playerTwoStateText;
+    [SerializeField] private GameObject _playerOneRedPanel;
+    [SerializeField] private GameObject _playerTwoRedPanel;
+    
+    [Header("SFX")]
+    [SerializeField] AudioClip _playerOneTurnSFX;
+    [SerializeField] AudioClip _playerTwoTurnSFX;
+    [SerializeField] AudioClip _endGameSFX;    
 
     private GamePiece _curGamePiece;
     private State _curPlayerState;
@@ -48,12 +50,11 @@ public class GameController : MonoBehaviour
     public GameObject SetupStateText => _setupStateText;
     public GameObject PlayerOneStateText => _playerOneStateText;
     public GameObject PlayerTwoStateText => _playerTwoStateText;        
-    public GameObject[,] HighlightedTiles => _highlightedTiles;
-    public MainMenu MainMenu => _mainMenu;
+    public GameObject[,] HighlightedTiles => _highlightedTiles;    
     public GamePiece CurrentGamePiece => _curGamePiece;
     public State CurrentPlayerState => _curPlayerState;
-    public int WonTeam => _wonTeam;       
-    
+    public int WonTeam => _wonTeam;
+
     public void SetCurrentGamePiece(GamePiece piece)
     {
         _curGamePiece = piece;
@@ -89,5 +90,29 @@ public class GameController : MonoBehaviour
         _wonTeam = team;               
     }
         
+    public void PlayerOneTurnSFX()
+    {
+        AudioHelper.PlayClip2D(_playerOneTurnSFX, .5f);
+    }
+
+    public void PlayerTwoTurnSFX()
+    {
+        AudioHelper.PlayClip2D(_playerTwoTurnSFX, .5f);
+    }
+
+    public void PlayerOneRedOn()
+    {
+        _playerOneRedPanel.SetActive(true);
+    }
+    
+    public void PlayerTwoRedOn()
+    {
+        _playerTwoRedPanel.SetActive(true);
+    }
+    
+    public void PlayerEndGameSFX()
+    {
+        AudioHelper.PlayClip2D(_endGameSFX, 1);
+    }
     
 }

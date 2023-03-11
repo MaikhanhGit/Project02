@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameKillCheckState : State
 {
@@ -13,6 +14,8 @@ public class GameKillCheckState : State
     private float _delayExitDuration = 1.1f;
     private int _playerOneCount = 7;
     private int _playerTwoCount = 7;
+    private bool _alertSentToOne = false;
+    private bool _alertSentToTwo = false;
     
     public GameKillCheckState(GameFSM stateMachine, GameController controller)
     {
@@ -28,9 +31,21 @@ public class GameKillCheckState : State
 
     public override void Tick()
     {
-        base.Tick();        
+        base.Tick();
 
-        if(_playerOneCount <= 0)
+        if (_playerOneCount <= 3 && _alertSentToOne == false)
+        {
+            _controller.PlayerOneRedOn();
+            _alertSentToOne = true;
+        }
+
+        if (_playerTwoCount <= 3 && _alertSentToTwo == false)
+        {
+            _controller.PlayerTwoRedOn();
+            _alertSentToTwo = true;
+        }
+
+        if (_playerOneCount <= 0)
         {
             _controller.SetWonTeam( 1);
             _stateMachine.ChangeState(_stateMachine.EndGameState);
@@ -66,8 +81,7 @@ public class GameKillCheckState : State
     }
 
     private void CheckEndGame(int kills)
-    {
-        
+    {        
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
         {
             _playerTwoCount -= kills;           
@@ -77,24 +91,27 @@ public class GameKillCheckState : State
             _playerOneCount -= kills;            
         }
     }
+    
 
     private void StartExit()
     {                       
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
         {
             _controller.PlayerOneStateText?.SetActive(false);
+            _controller.PlayerTwoTurnSFX();            
             _stateMachine.ChangeState(_stateMachine.PlayerTwoPlayState);
         }
         else if (_previousPlayerState == _stateMachine.PlayerTwoPlayState)
         {
             _controller.PlayerTwoStateText?.SetActive(false);
+            _controller.PlayerOneTurnSFX();            
             _stateMachine.ChangeState(_stateMachine.PlayerOnePlayState);
         }
     }
 
     public override void Exit()
     {       
-        base.Exit();
+        base.Exit();       
     }
 
 

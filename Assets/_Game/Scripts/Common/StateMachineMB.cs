@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.Generic;using UnityEngine;
+
 
 public class StateMachineMB : MonoBehaviour
 {
@@ -9,8 +9,10 @@ public class StateMachineMB : MonoBehaviour
     private State _previousState;
 
     public State PreviousState => _previousState;
+    
 
     private bool _inTransition = false;
+        
 
     public void ChangeState(State newState)
     {        
@@ -81,7 +83,7 @@ public class StateMachineMB : MonoBehaviour
         if (CurrentState != null && !_inTransition)
             CurrentState.FixedTick();
     }
-
+    
     protected virtual void OnDestroy()
     {
         CurrentState?.Exit();
