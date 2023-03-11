@@ -84,12 +84,15 @@ public class GameKillCheckState : State
     {        
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
         {
-            _playerTwoCount -= kills;           
+            _playerTwoCount -= kills;            
         }
         else if (_previousPlayerState == _stateMachine.PlayerTwoPlayState)
         {
             _playerOneCount -= kills;            
         }
+
+        Debug.Log("Player One Count: " + _playerOneCount);
+        Debug.Log("Player Two Count: " + _playerTwoCount);
     }
     
 

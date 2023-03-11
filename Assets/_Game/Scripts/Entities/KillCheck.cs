@@ -154,7 +154,7 @@ public class KillCheck : MonoBehaviour
         if((pieceCurrentZ + 1) <= _tileCount && (pieceCurrentZ - 1) >= 0)
         {
             GamePiece p1 = board[pieceCurrentX, pieceCurrentZ + 1];
-            GamePiece p2 = board[pieceCurrentZ, pieceCurrentZ - 1];
+            GamePiece p2 = board[pieceCurrentX, pieceCurrentZ - 1];
 
             // top 2 down 1
             if((pieceCurrentZ + 2) <= _tileCount)
