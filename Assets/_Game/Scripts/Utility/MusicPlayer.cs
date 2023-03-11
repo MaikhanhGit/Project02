@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 
 public class MusicPlayer : SingletonMB<MusicPlayer>
-{
-    [SerializeField] Slider _musicSlider;
+{    
     AudioSource _music;
     AudioSource _ambience;
     float _musicVolume = .3f;
@@ -42,7 +41,7 @@ public class MusicPlayer : SingletonMB<MusicPlayer>
 
     private void Update()
     {
-        _music.volume = _musicSlider.value;
+        _music.volume = _musicVolume;
         _ambience.volume = _ambienceVolume;
     }
 

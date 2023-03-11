@@ -71,24 +71,5 @@ public class TouchManager : MonoBehaviour
                 
         } 
     }
-       
-        
-               
-        /*
-        if (Physics.Raycast(ray, out hit))
-        {
-            string name = hit.collider.gameObject.tag.ToString();
-            Debug.Log(name);
-        }"Touch
-        */
-
-
-
-        /* PLACE HOLDER: move game object on touch
-        Vector3 position = Camera.main.ScreenToWorldPoint(_touchPositionAction.ReadValue<Vector2>());
-        position.y = _testObject.transform.position.y;
-        _testObject.transform.position = position;
-        */
-    
-    
+      
 }

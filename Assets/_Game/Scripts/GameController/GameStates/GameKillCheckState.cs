@@ -10,7 +10,7 @@ public class GameKillCheckState : State
     private GamePiece curPiece;
     GamePiece[,] board;
     KillCheck killCheck;
-    private float _delayExitDuration = 1;
+    private float _delayExitDuration = 1.1f;
     private int _playerOneCount = 7;
     private int _playerTwoCount = 7;
     

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class KillCheck : MonoBehaviour
 {
-    [SerializeField] private float _destroyDelay = 0;
+    private float _destroyDelay = 1;    
     private int _tileCount = 4;    
     private int _offSetZ = 2;
     private int _killCount = 0;
@@ -12,11 +13,16 @@ public class KillCheck : MonoBehaviour
     private int _myTeam;
     private int CurrentX;
     private int CurrentZ;
+    private IEnumerator _destroyOneCoroutine;
+    private IEnumerator _destroyTwoCoroutine;
+    
+    public event Action Happy = delegate { };
 
     private void Start()
     {
         _myTeam = GetComponent<GamePiece>().Team;        
     }
+        
 
     public int CheckForKills(GamePiece[,] board)
     {
@@ -32,7 +38,7 @@ public class KillCheck : MonoBehaviour
         {
             GamePiece p1 = board[pieceCurrentX, pieceCurrentZ + 1];
             GamePiece p2 = board[pieceCurrentX, pieceCurrentZ + 2];
-
+            
             _somethingKilled = KillOne(p1, p2, _myTeam);
             if(_somethingKilled == true)
             {
@@ -371,8 +377,8 @@ public class KillCheck : MonoBehaviour
             p2 != null && p2.Team == team)
         {
             // TODO sfx, feedBack
-
-            StartDestroyOne(p1);            
+            _destroyOneCoroutine = StartDestroyOne(p1);
+            StartCoroutine(_destroyOneCoroutine);
             return true;
         }
         return false;
@@ -384,7 +390,8 @@ public class KillCheck : MonoBehaviour
                 p2 != null && p2.Team != team)
         {
             //TODO feedback
-            StartDestroyTwo(p1, p2);
+            _destroyTwoCoroutine = StartDestroyTwo(p1, p2);
+            StartCoroutine(_destroyTwoCoroutine);
             return true;
         }        
         return false;
@@ -422,26 +429,32 @@ public class KillCheck : MonoBehaviour
 
     private void EliminateTwo(GamePiece p1, GamePiece p2)
     {
-        //TODO feedback
-        StartDestroyTwo(p1, p2);
+        //TODO feedback        
+        StartCoroutine(StartDestroyTwo(p1, p2));
     }
 
-    private void StartDestroyOne(GamePiece p)
+    private IEnumerator StartDestroyOne(GamePiece p)
     {
         // TODO feedback
-       // yield return new WaitForSeconds(_destroyDelay);
+        Happy.Invoke();
+        p.OnKilled();
+        yield return new WaitForSeconds(_destroyDelay);              
         Destroy(p.gameObject);
         p = null;
     }
 
-    private void StartDestroyTwo(GamePiece p1, GamePiece p2)
+    private IEnumerator StartDestroyTwo(GamePiece p1, GamePiece p2)
     {
         // TODO feedback
-       // yield return new WaitForSeconds(_destroyDelay);
-
+        Happy.Invoke();
+        p1.OnKilled();
+        p2.OnKilled();
+        yield return new WaitForSeconds(_destroyDelay);        
         Destroy(p1.gameObject);
         Destroy(p2.gameObject);
         p1 = null;
         p2 = null;
     }
+
+
 }

@@ -29,6 +29,16 @@ public class MainMenu : MonoBehaviour
             AudioHelper.PlayClip2D(_onButtonClick, 1);
     }
 
+    public void ChangeMusicVolume(float newVolume)
+    {
+        MusicPlayer.Instance.UpdateMusicVolume(newVolume);
+    }
+
+    public void ChangeAmbiencecVolume(float newVolume)
+    {
+        MusicPlayer.Instance.UpdateAmbienceVolume(newVolume);
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quit Game");

@@ -10,7 +10,7 @@ public class GameMoveState : State
     private GameObject[,] _tiles;
     private GamePiece _piece;
     private GameBoard _board;
-    private Vector3 _offSet = new Vector3(0, 0.4f, 0);
+    private Vector3 _offSet = new Vector3(0, 0.2f, 0);
     
     private string _highlightTag = "HighLight";
     private bool _validMove = false;
@@ -73,8 +73,7 @@ public class GameMoveState : State
 
                 _board = _controller.GameBoard;
                 _board.RePositionPiece(_piece, currentPos, newPos);
-                _piece.SetPosition(newPosition, true);
-                _piece.ResetSize();
+                _piece.SetPosition(newPosition, true);                
                 _controller.ClearHighlightedTiles();
                 _validMove = true;
                 _stateMachine.ChangeState(_stateMachine.KillCheckState);
