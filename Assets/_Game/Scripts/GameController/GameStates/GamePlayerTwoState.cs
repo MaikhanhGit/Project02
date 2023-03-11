@@ -25,8 +25,7 @@ public class GamePlayerTwoState : State
     public override void Enter()
     {
         base.Enter();
-        // UI
-        //_controller.PlayerTwoStateText.SetActive(true);        
+        
         _controller.PlayerTwoStateText.SetActive(true);
         _availableMoves = null;
         _gamePiecePickedUp = false;
@@ -39,8 +38,7 @@ public class GamePlayerTwoState : State
 
     public override void Exit()
     {
-        base.Exit();        
-        _controller.PlayerTwoStateText.SetActive(false);
+        base.Exit();               
         _controller.InputManager.TouchPressed -= OnPick;
         _controller.InputManager.TouchReleased -= OnRelease;
         

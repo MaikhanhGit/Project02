@@ -20,14 +20,12 @@ public class GameLoseState : State
         base.Enter();
         Debug.Log("LOSE STATE");
         // sfx
-        AudioHelper.PlayClip2D(_controller.LoseSFX, 1);
-        _controller.LoseStateUI.SetActive(true);
+       
     }
 
     public override void Exit()
     {
-        base.Exit();
-        _controller.LoseStateUI.SetActive(false);
+        base.Exit();        
     }
 
     public override void FixedTick()

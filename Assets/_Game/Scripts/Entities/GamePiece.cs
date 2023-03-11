@@ -12,6 +12,9 @@ public enum GamePieceType
 public class GamePiece : MonoBehaviour
 {
     [SerializeField] Animator _animator;
+    [SerializeField] ParticleSystem _killedParticle;
+    [SerializeField] ParticleSystem _landingParticle;
+
     public GamePieceType Type;
     public int Team;
     public int CurrentX;
@@ -34,8 +37,7 @@ public class GamePiece : MonoBehaviour
 
     private void Start()
     {        
-        _killCheck = GetComponent<KillCheck>();        
-        //_killCheck.Killed += OnKilled;
+        _killCheck = GetComponent<KillCheck>();               
         _killCheck.Happy += OnHappy;
         _originalSize = transform.localScale;
     }
@@ -48,15 +50,15 @@ public class GamePiece : MonoBehaviour
     }
 
     public void SetPosition(Vector3 position, bool force = false)
-    {
-        // TODO: player sfx
-        //Vector3 desiredPosition;
-        //desiredPosition = position;
+    {        
         if(force == true)
         {
-            _animator.SetBool(_animPickedUp, false);
+            _animator.SetBool(_animPickedUp, false);            
             StartCoroutine(StartDownAnimation(_downAnimDuration));
             transform.position = position;
+            ParticleSystem landParticle =
+            Instantiate(_landingParticle, position, Quaternion.identity);
+            landParticle.Play();
             _piecePickedUp = false;
 
         }
@@ -80,23 +82,27 @@ public class GamePiece : MonoBehaviour
 
     public void PutDown()
     {
-        _animator.SetBool(_animPickedUp, false);
+        _animator.SetBool(_animPickedUp, false);               
         StartCoroutine(StartDownAnimation(_downAnimDuration));
         Transform transform = this.gameObject.transform;
         transform.position = _currentTransform;
+        ParticleSystem landParticle =
+           Instantiate(_landingParticle, this.transform.position, Quaternion.identity);
+        landParticle.Play();
         _piecePickedUp = false;        
     }    
     
-    public void OnKilled()
-    {
-        Debug.Log("On killed Animation");
+    public void OnKilled()    
+    {        
         _animator.SetBool(_animKilled, true);
+        ParticleSystem killedParticle = 
+            Instantiate(_killedParticle, transform.position + new Vector3 (0, 1, 0), Quaternion.identity);        
+        killedParticle.Play();
     }
    
 
     public void OnHappy()
-    {
-        Debug.Log("On Happy Animation");
+    {        
         _animator.SetBool(_animHappy, true);        
         StartCoroutine(StopHappyAnimation(_happyAnimDuration));
     }
@@ -109,13 +115,11 @@ public class GamePiece : MonoBehaviour
     }
 
     private IEnumerator StartDownAnimation(float duration)
-    {
-        Debug.Log("Down Anim");
+    {        
         _animator.SetBool(_animDown, true);
         yield return new WaitForSeconds(duration);
         _animator.SetBool(_animDown, false);
 
     }
-
-
+    
 }

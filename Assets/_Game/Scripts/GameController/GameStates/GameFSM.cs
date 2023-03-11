@@ -13,8 +13,7 @@ public class GameFSM : StateMachineMB
     public GamePlayerTwoState PlayerTwoPlayState { get; private set; }
     public GameMoveState GameMoveState { get; private set; }
     public GameKillCheckState KillCheckState { get; private set; }
-    public EndGameState GameWinState { get; private set; }
-    public GameLoseState GameLoseState { get; private set; }
+    public EndGameState EndGameState { get; private set; }    
 
     private void Awake()
     {
@@ -25,8 +24,7 @@ public class GameFSM : StateMachineMB
         PlayerTwoPlayState = new GamePlayerTwoState(this, _controller);
         GameMoveState = new GameMoveState(this, _controller);
         KillCheckState = new GameKillCheckState(this, _controller);
-        GameWinState = new EndGameState(this, _controller);
-        GameLoseState = new GameLoseState(this, _controller);
+        EndGameState = new EndGameState(this, _controller);        
     }
 
     private void Start()

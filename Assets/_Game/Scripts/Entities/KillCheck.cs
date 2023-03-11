@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 public class KillCheck : MonoBehaviour
-{
+{    
     private float _destroyDelay = 1;    
     private int _tileCount = 4;    
     private int _offSetZ = 2;

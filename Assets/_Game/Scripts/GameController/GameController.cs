@@ -23,20 +23,17 @@ public class GameController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject _setupStateText;
     [SerializeField] private GameObject _playerOneStateText;
-    [SerializeField] private GameObject _playerTwoStateText;
-    [SerializeField] private GameObject _killCheckText;
-    [SerializeField] private GameObject _winStateUI;
-    [SerializeField] private GameObject _loseStateUI;
+    [SerializeField] private GameObject _playerTwoStateText;        
     [SerializeField] private MainMenu _mainMenu;
+    [SerializeField] private GameObject _playerOneWonPromp;
+    [SerializeField] private GameObject _playerTwpWonPromp;
 
-    [Header ("SFX")]
-    [SerializeField] private AudioClip _winSFX;
-    [SerializeField] private AudioClip _loseSFX;
+    [Header ("SFX")]     
 
     private GamePiece _curGamePiece;
     private State _curPlayerState;
     private GameObject[,] _highlightedTiles;
-    private int _wonTeam = -1;
+    private int _wonTeam = -1;    
         
     public float TapLimitDuration => _tapLimitDuration;
     public float SetupStateDuration => _setupStateDuration;
@@ -50,18 +47,12 @@ public class GameController : MonoBehaviour
     public GameBoard GameBoard => _gameBoard;
     public GameObject SetupStateText => _setupStateText;
     public GameObject PlayerOneStateText => _playerOneStateText;
-    public GameObject PlayerTwoStateText => _playerTwoStateText;
-    public GameObject KillCheckText => _killCheckText;
-    public GameObject WinStateUI => _winStateUI;
-    public GameObject LoseStateUI => _loseStateUI;
+    public GameObject PlayerTwoStateText => _playerTwoStateText;        
     public GameObject[,] HighlightedTiles => _highlightedTiles;
     public MainMenu MainMenu => _mainMenu;
     public GamePiece CurrentGamePiece => _curGamePiece;
     public State CurrentPlayerState => _curPlayerState;
-    public int WonTeam => _wonTeam;
-    public AudioClip WinSFX => _winSFX;
-    public AudioClip LoseSFX => _loseSFX;
-
+    public int WonTeam => _wonTeam;       
     
     public void SetCurrentGamePiece(GamePiece piece)
     {
@@ -95,20 +86,7 @@ public class GameController : MonoBehaviour
 
     public void SetWonTeam(int team)
     {
-        _wonTeam = team;
-        if(_wonTeam == 0)
-        {
-            Debug.Log("Player 1 won!");
-        }
-        else if(_wonTeam == 1)
-        {
-            Debug.Log("Player 2 won!");
-        }
-        else if(_wonTeam == 2)
-        {
-            Debug.Log("Game Tie!");
-        }
-        
+        _wonTeam = team;               
     }
         
     

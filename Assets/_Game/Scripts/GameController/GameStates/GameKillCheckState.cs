@@ -33,22 +33,24 @@ public class GameKillCheckState : State
         if(_playerOneCount <= 0)
         {
             _controller.SetWonTeam( 1);
+            _stateMachine.ChangeState(_stateMachine.EndGameState);
         }
         else if(_playerTwoCount <= 0)
         {
             _controller.SetWonTeam(0);
+            _stateMachine.ChangeState(_stateMachine.EndGameState);
         }
         else if(_playerOneCount == 1 && _playerTwoCount == 1)
         {
             _controller.SetWonTeam(2);
+            _stateMachine.ChangeState(_stateMachine.EndGameState);
         }
 
-        if (StateDuration >= _delayExitDuration)
+        else if (StateDuration >= _delayExitDuration)
         {
             StartExit();
         }
     }
-
     
     private void StartKillCheck()
     {
@@ -60,11 +62,6 @@ public class GameKillCheckState : State
             killCheck = curPiece.GetComponent<KillCheck>();
             int kills = killCheck.CheckForKills(board);
             CheckEndGame(kills);
-
-            Debug.Log("Killed: " + kills);
-            //TODO: UI show kills            
-
-            //_controller.KillCheckText.SetActive(true);
         }
     }
 
@@ -82,15 +79,15 @@ public class GameKillCheckState : State
     }
 
     private void StartExit()
-    {               
-        //_controller.KillCheckText.SetActive(false);
-
+    {                       
         if (_previousPlayerState == _stateMachine.PlayerOnePlayState)
-        {            
+        {
+            _controller.PlayerOneStateText?.SetActive(false);
             _stateMachine.ChangeState(_stateMachine.PlayerTwoPlayState);
         }
         else if (_previousPlayerState == _stateMachine.PlayerTwoPlayState)
-        {           
+        {
+            _controller.PlayerTwoStateText?.SetActive(false);
             _stateMachine.ChangeState(_stateMachine.PlayerOnePlayState);
         }
     }

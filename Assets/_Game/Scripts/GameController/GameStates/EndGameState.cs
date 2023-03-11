@@ -21,15 +21,11 @@ public class EndGameState : State
 
     public override void Enter()
     {
-        base.Enter();
-        Debug.Log("End Game STATE");
-        // sfx
-        AudioHelper.PlayClip2D(_controller.WinSFX, 1);
-        //_controller.WinStateUI.SetActive(true);
+        base.Enter();                
+        
+        _wonTeam = _controller.WonTeam;       
 
-        _wonTeam = _controller.WonTeam;
-
-        if(_wonTeam == _playerOneWon)
+        if (_wonTeam == _playerOneWon)
         {
             Debug.Log("Player 1 Won");
         }
@@ -40,34 +36,16 @@ public class EndGameState : State
         else if(_wonTeam == _tieGame)
         {
             Debug.Log("Tie");
-        }
+        }    
     }
+    
 
     public override void Exit()
     {
         base.Exit();
-        //_controller.WinStateUI.SetActive(false);
+        
     }
 
-    public override void FixedTick()
-    {
-        base.FixedTick();
-    }
 
-    public override void Tick()
-    {
-        base.Tick();
-        /*
-        if(_controller?.Input?.IsTapPressed == true)
-        {
-            if(StateDuration >= _delayExitDuration)
-            {
-                // Move to Main Menu
-                Debug.Log("Move to Main Menu");
-                _controller.MainMenu.LoadScene(0);
-            }
-            
-        }
-        */
-    }
+   
 }

@@ -23,11 +23,7 @@ public class GameMoveState : State
 
     public override void Enter()
     {
-        base.Enter();
-        // UI
-        // get currently picked up gamePiece
-        
-        Debug.Log("Enter Move State");
+        base.Enter();       
         _piece = _controller.CurrentGamePiece;
         // Get tiles from Gameboard
         _tiles = _controller.GameBoard.Tiles;
@@ -37,8 +33,7 @@ public class GameMoveState : State
 
     public override void Exit()
     {
-        base.Exit();
-        Debug.Log("Exit Move State");
+        base.Exit();        
         _controller.InputManager.TouchPressed -= OnTouch;
     }
 
