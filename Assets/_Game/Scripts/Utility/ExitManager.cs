@@ -7,16 +7,17 @@ public class ExitManager : MonoBehaviour
 {   
     void Update()
     {
-        if(Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android)
         {
-            if (Input.GetKey(KeyCode.Escape))
-            {               
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 if (SceneManager.GetActiveScene().buildIndex == 0)
                     Application.Quit();
                 else
                     SceneManager.LoadScene(0);
             }
         }
+        
         
     }
 }
