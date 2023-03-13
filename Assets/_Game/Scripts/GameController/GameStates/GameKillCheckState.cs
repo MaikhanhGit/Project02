@@ -90,9 +90,6 @@ public class GameKillCheckState : State
         {
             _playerOneCount -= kills;            
         }
-
-        Debug.Log("Player One Count: " + _playerOneCount);
-        Debug.Log("Player Two Count: " + _playerTwoCount);
     }
     
 

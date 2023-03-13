@@ -22,7 +22,7 @@ public class GamePiece : MonoBehaviour
     public int CurrentX;
     public int CurrentZ;
     private int _tileSize = 1;
-    private float _happyAnimDuration = 1;
+    private float _happyAnimDuration = 1.5f;
     private float _downAnimDuration = 1;
 
     private bool _piecePickedUp = false;
@@ -111,13 +111,13 @@ public class GamePiece : MonoBehaviour
    
 
     public void OnHappy()
-    {        
-        _animator.SetBool(_animHappy, true);        
-        StartCoroutine(StopHappyAnimation(_happyAnimDuration));
+    {                
+        StartCoroutine(StartHappyAnimation(_happyAnimDuration));
     }
 
-    private IEnumerator StopHappyAnimation(float duration)
+    private IEnumerator StartHappyAnimation(float duration)
     {
+        _animator.SetBool(_animHappy, true);
         yield return new WaitForSeconds(duration);
         _animator.SetBool(_animHappy, false);
         _killCheck.Happy -= OnHappy;
